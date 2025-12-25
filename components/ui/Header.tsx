@@ -24,13 +24,13 @@ export default function Header({ title, showBack = false, backUrl }: HeaderProps
   };
   
   return (
-    <header className="w-full border-b border-gray-200 bg-white">
+    <header className="w-full border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
           {showBack && (
             <button
               onClick={handleBack}
-              className="text-gray-600 hover:text-gray-900 transition-colors"
+              className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
               aria-label="뒤로가기"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -39,14 +39,14 @@ export default function Header({ title, showBack = false, backUrl }: HeaderProps
             </button>
           )}
           {title && (
-            <h1 className="text-xl font-bold text-gray-900">{title}</h1>
+            <h1 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">{title}</h1>
           )}
         </div>
-        <Link href="/" className="text-primary font-bold text-lg">
+        <Link href="/" className="text-primary-600 dark:text-primary-400 font-bold text-lg">
           QuickTalk
         </Link>
         <select
-          className="ml-4 rounded-md border border-gray-200 bg-white px-2 py-1 text-sm text-gray-700"
+          className="ml-4 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-2 py-1 text-sm text-neutral-700 dark:text-neutral-300"
           value={language}
           onChange={(event) => setLanguage(event.target.value as typeof language)}
           aria-label="Language"
