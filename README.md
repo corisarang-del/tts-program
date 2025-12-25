@@ -51,11 +51,15 @@
   - **장점**: Standard/Wavenet 음성 선택, 캐싱 가능, 합리적 가격, 한국어 최적화
 
 #### **Database & Storage**
-- **Vercel KV (Redis) 또는 PostgreSQL**
-  - **이유**: MVP는 간단한 로그 저장으로 충분
-  - **선택지**:
-    - **Vercel KV**: 빠른 속도, 간편한 설정 (Phase 1)
-    - **PostgreSQL (Supabase)**: 복잡한 쿼리, 관계형 데이터 (Phase 2)
+- **Supabase PostgreSQL (구현 완료)**
+  - **이유**: 관계형 데이터 관리, 실시간 동기화, 확장성
+  - **장점**: 무료 플랜 충분, 인증 내장, 자동 백업
+- **JSON 파일 (Fallback)**
+  - **이유**: 개발 환경에서 Supabase 없이 동작
+  - **구현**: /data/situations.json, /data/intents.json
+- **메모리 캐싱 (TTS)**
+  - **이유**: 동일 문장 반복 생성 시 비용 절감
+  - **구현**: 세션 중 캐시 유지
 
 #### **Deployment & Monitoring**
 - **Vercel**
@@ -115,18 +119,21 @@ quicktalk/
 │       └── Container.tsx
 │
 ├── lib/                          # 유틸리티 & 비즈니스 로직
-│   ├── store.ts                  # Zustand 상태 관리
+│   ├── store.ts                  # Zustand 상태 관리 (situation, intent, language 포함)
 │   ├── api.ts                    # API fetch wrapper
 │   ├── logger.ts                 # 로깅 유틸리티
 │   ├── constants.ts              # 상수 정의
-│   ├── openai.ts                 # OpenAI 클라이언트
-│   ├── tts.ts                    # TTS 클라이언트
-│   └── db.ts                     # 데이터베이스 (간이 구현)
+│   ├── openai.ts                 # OpenAI GPT-4 클라이언트
+│   ├── tts.ts                    # Google Cloud TTS 클라이언트 (캐싱 포함)
+│   ├── db.ts                     # Supabase PostgreSQL + JSON Fallback
+│   ├── env.ts                    # 환경 변수 검증
+│   ├── error-handler.ts          # AppError 클래스, 에러 응답 처리
+│   └── i18n.ts                   # 다국어 지원 (ko, en, ja, zh)
 │
 ├── types/                        # TypeScript 타입 정의
-│   ├── index.ts                  # 공통 타입
-│   ├── api.ts                    # API 응답 타입
-│   └── store.ts                  # Store 타입
+│   ├── index.ts                  # 공통 타입 (Situation, Intent, UsageLog, Locale, LocalizedText)
+│   ├── api.ts                    # API 응답 타입 (GenerateResponse, etc)
+│   └── store.ts                  # Store 타입 (AppState)
 │
 ├── data/                         # 정적 데이터
 │   ├── situations.json           # 상황 목록
@@ -828,12 +835,18 @@ export function trackEvent(eventName: string, data: any) {
 - 재시도 로직 추가
 
 ### 2. Google Cloud TTS 인증 에러
-**문제**: `GOOGLE_CLOUD_TTS_NOT_CONFIGURED` 또는 인증 실패
-**해결**: 
-- `GOOGLE_APPLICATION_CREDENTIALS` 환경 변수에 서비스 계정 키 파일 경로 설정
-- 또는 `GOOGLE_CLOUD_PROJECT_ID`와 `GOOGLE_CLOUD_KEY` (JSON 문자열) 설정
+**문제**: `GOOGLE_APPLICATION_CREDENTIALS` 누락 또는 인증 실패
+**해결**:
+- Google Cloud Console에서 서비스 계정 생성 후 JSON 키 다운로드
+- `.env.local`에 설정:
+  ```env
+  GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account-key.json
+  # 또는
+  GOOGLE_CLOUD_PROJECT_ID=your-project-id
+  GOOGLE_CLOUD_KEY={"type":"service_account",...}
+  ```
 - Google Cloud Console에서 Cloud Text-to-Speech API 활성화 확인
-- 서비스 계정에 Text-to-Speech 권한 확인
+- 서비스 계정에 `roles/tts.client` 역할 부여
 
 ### 3. TTS 재생 안됨 (모바일)
 **문제**: iOS Safari에서 TTS 재생 안됨

@@ -1,11 +1,12 @@
 Product Requirements Document
-상황 기반 즉시 소통 서비스
-Version: 1.0
-Date: 2025.12.25
-Status: Draft
+상황 기반 즉시 소통 서비스 (QuickTalk)
+Version: 1.1
+Date: 2025.12.26
+Status: MVP Phase 1 완료, Phase 2 진행 예정
 문서 이력
 날짜	버전	변경 내용	작성자
 2025.12.25	1.0	초안 작성	-
+2025.12.26	1.1	Phase 1 MVP 구현 완료, 기술 스택 업데이트, 다국어 지원 추가	Claude
 
 1. 제품 개요 (Executive Summary)
 1.1 제품명
@@ -140,23 +141,32 @@ TTS 버튼	각 문장마다 재생 버튼	P0
 • result_rating: 평가 (1-3)
 • timestamp: 생성 시간
 5. 기술 요구사항 (Technical Requirements)
-5.1 시스템 아키텍처
+5.1 시스템 아키텍처 (구현 완료)
 프론트엔드
-• React 18+ (또는 Next.js 14+)
-• TypeScript
-• Tailwind CSS (반응형 디자인)
-• Zustand 또는 Context API (상태 관리)
+• Next.js 14.2.5 (App Router)
+• React 18.3.1
+• TypeScript 5.5.4
+• Tailwind CSS 3.4.7 (반응형 디자인)
+• Zustand 4.5.5 (상태 관리)
+• React Hot Toast 2.4.1 (알림)
+• Axios 1.7.7 (HTTP 클라이언트)
 백엔드
-• Node.js + Express (또는 FastAPI)
-• PostgreSQL (로그 저장)
-• Redis (캐싱)
-AI/ML
-• OpenAI GPT-4 API (문장 생성)
-• Google Cloud Text-to-Speech (음성 합성)
+• Next.js 14.2.5 API Routes (Node.js)
+• OpenAI API 4.52.7 (GPT-4/3.5-turbo)
+• Google Cloud Text-to-Speech API (음성 합성)
+• 다국어 지원: 한국어(ko), 영어(en), 일본어(ja), 중국어(zh)
+데이터베이스
+• Supabase PostgreSQL (주 저장소)
+• JSON 파일 (Fallback/개발 환경)
+• 캐싱: 메모리 + 파일 기반
 인프라
-• Vercel 또는 AWS (호스팅)
-• CloudFlare (CDN)
-• Google Analytics 또는 Mixpanel (분석)
+• Vercel (호스팅, CI/CD)
+• Google Cloud (TTS 서비스)
+분석
+• Vercel Analytics (Web Vitals 수집)
+테스트
+• Jest 29.7.0
+• React Testing Library 14.1.2
 5.2 성능 요구사항
 지표	목표	측정 방법
 페이지 로딩 시간	< 2초	Lighthouse
@@ -185,30 +195,37 @@ TTS 재생률	> 60%	TTS Click / Total Sessions
 • 주간 리텐션: > 25%
 • NPS (Net Promoter Score): > 50
 7. 개발 로드맵 (Development Roadmap)
-7.1 Phase 1: MVP (4주)
-Week 1-2: 기본 UI/UX 구현
-• 랜딩, 상황 선택, 의도 선택 페이지
-• 문장 출력 페이지
-• 반응형 디자인
-Week 3: 백엔드 및 AI 통합
-• GPT API 연동
-• TTS API 연동
-• 로그 시스템 구축
-Week 4: 테스트 및 배포
-• QA 테스트
-• 베타 사용자 테스트
-• 프로덕션 배포
-7.2 Phase 2: 기능 확장 (8주)
-• 사용자 계정 시스템
+7.1 Phase 1: MVP (완료)
+상태: 2025.12.26 완료
+구현된 기능:
+• 모든 페이지: 랜딩, 상황 선택, 의도 선택, 문장 출력, 결과 평가, 분석
+• 백엔드 API: /api/situations, /api/intents, /api/generate, /api/tts, /api/log
+• 상태 관리: Zustand store (situation, intent, sentences, ttsPlayed, resultRating, language)
+• 에러 처리 및 로깅: AppError, createErrorResponse, logError
+• 데이터베이스: Supabase PostgreSQL + JSON Fallback
+• AI 통합: OpenAI GPT-4 문장 생성
+• TTS 통합: Google Cloud Text-to-Speech (캐싱 포함)
+• 다국어 지원: ko, en, ja, zh 타입 정의 완료
+• 테스트 환경: Jest, React Testing Library 설정 완료
+
+7.2 Phase 2: 기능 확장 (진행 중)
+예정 기능:
+• 다국어 UI 완성 (현재 타입 정의만 완료)
+• 사용자 계정 시스템 (OAuth)
 • 즐겨찾기 기능
 • 분석 대시보드
-• 추가 상황/의도 확장
-• 다국어 지원 (영어)
-7.3 Phase 3: 고도화 (12주)
+• 개인화 추천
+• 추가 상황/의도 데이터 확장
+예상 기간: 4-8주
+
+7.3 Phase 3: 고도화 (계획 중)
+예정 기능:
 • AI 개인화 (사용 패턴 학습)
 • 커스텀 상황/의도 생성
-• 모바일 앱 출시
-• 음성 입력 지원
+• 모바일 앱 출시 (React Native/Flutter)
+• 음성 입력 지원 (Speech-to-Text)
+• 커뮤니티 기능
+예상 기간: 8-12주
 8. 위험 요소 및 대응 (Risks & Mitigation)
 위험 요소	영향도	대응 방안
 AI 생성 문장 품질 저하	높음	프롬프트 엔지니어링, 사용자 피드백 반영
