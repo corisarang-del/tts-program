@@ -13,10 +13,10 @@ export default function Card({
   className = '',
   ...props
 }: CardProps) {
-  const baseStyles = 'bg-white rounded-lg shadow-md p-6 transition-all duration-200';
+  const baseStyles = 'bg-white dark:bg-neutral-800 rounded-md shadow-md p-6 transition-all duration-200';
   const hoverStyles = hover ? 'hover:shadow-lg hover:scale-105 cursor-pointer' : '';
-  const activeStyles = active ? 'ring-2 ring-primary scale-105' : '';
-  
+  const activeStyles = active ? 'ring-2 ring-primary-600 scale-105' : '';
+
   return (
     <div
       className={`${baseStyles} ${hoverStyles} ${activeStyles} ${className}`}
