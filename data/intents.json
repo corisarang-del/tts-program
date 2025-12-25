@@ -1,0 +1,89 @@
+[
+  {
+    "id": "intent_001",
+    "situationId": "situation_001",
+    "name": "사과",
+    "description": "늦어서 죄송하다는 의사 전달",
+    "displayOrder": 1
+  },
+  {
+    "id": "intent_002",
+    "situationId": "situation_001",
+    "name": "도착 시간 알림",
+    "description": "예상 도착 시간 안내",
+    "displayOrder": 2
+  },
+  {
+    "id": "intent_003",
+    "situationId": "situation_001",
+    "name": "온라인 참여 요청",
+    "description": "온라인으로 먼저 참여하겠다는 의사",
+    "displayOrder": 3
+  },
+  {
+    "id": "intent_004",
+    "situationId": "situation_002",
+    "name": "공손한 요청",
+    "description": "정중하게 일정 변경 요청",
+    "displayOrder": 1
+  },
+  {
+    "id": "intent_005",
+    "situationId": "situation_002",
+    "name": "대안 제시",
+    "description": "다른 시간대 제안",
+    "displayOrder": 2
+  },
+  {
+    "id": "intent_006",
+    "situationId": "situation_002",
+    "name": "긴급 변경",
+    "description": "긴급 상황으로 일정 변경 요청",
+    "displayOrder": 3
+  },
+  {
+    "id": "intent_007",
+    "situationId": "situation_003",
+    "name": "공손한 부탁",
+    "description": "시간 괜찮으시면 도움 부탁",
+    "displayOrder": 1
+  },
+  {
+    "id": "intent_008",
+    "situationId": "situation_003",
+    "name": "긴급 도움",
+    "description": "급한 상황에서 도움 요청",
+    "displayOrder": 2
+  },
+  {
+    "id": "intent_009",
+    "situationId": "situation_003",
+    "name": "정보 요청",
+    "description": "조언이나 정보를 구하고 싶을 때",
+    "displayOrder": 3
+  },
+  {
+    "id": "intent_010",
+    "situationId": "situation_004",
+    "name": "진행 상황 보고",
+    "description": "업무 진행 상황을 보고할 때",
+    "displayOrder": 1
+  },
+  {
+    "id": "intent_011",
+    "situationId": "situation_004",
+    "name": "완료 보고",
+    "description": "업무 완료를 보고할 때",
+    "displayOrder": 2
+  },
+  {
+    "id": "intent_012",
+    "situationId": "situation_004",
+    "name": "이슈 보고",
+    "description": "문제나 이슈를 보고할 때",
+    "displayOrder": 3
+  }
+]
+
+
+
