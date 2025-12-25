@@ -1,7 +1,7 @@
 import { ButtonHTMLAttributes, ReactNode } from 'react';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'danger' | 'text';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   children: ReactNode;
@@ -16,12 +16,14 @@ export default function Button({
   disabled,
   ...props
 }: ButtonProps) {
-  const baseStyles = 'font-medium rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2';
-  
+  const baseStyles = 'font-medium rounded-md transition-all focus:outline-none focus:ring-2 focus:ring-offset-2';
+
   const variantStyles = {
-    primary: 'bg-primary text-white hover:bg-primary/90 focus:ring-primary',
-    secondary: 'bg-secondary text-white hover:bg-secondary/90 focus:ring-secondary',
-    ghost: 'bg-transparent text-gray-700 hover:bg-gray-100 focus:ring-gray-500',
+    primary: 'bg-primary-600 text-white hover:bg-primary-700 hover:shadow-md hover:scale-105 focus:ring-primary-600',
+    secondary: 'bg-secondary text-white hover:bg-secondary/90 hover:shadow-md focus:ring-secondary',
+    ghost: 'bg-transparent text-neutral-700 hover:bg-neutral-100 focus:ring-neutral-500 dark:text-neutral-300 dark:hover:bg-neutral-800',
+    danger: 'bg-error text-white hover:bg-red-600 hover:shadow-md focus:ring-error',
+    text: 'bg-transparent text-primary-600 hover:bg-primary-50 focus:ring-primary-600 dark:text-primary-400 dark:hover:bg-primary-950',
   };
   
   const sizeStyles = {
