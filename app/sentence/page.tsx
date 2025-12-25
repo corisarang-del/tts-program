@@ -20,6 +20,7 @@ export default function SentencePage() {
   const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [regenerating, setRegenerating] = useState(false);
+  const [displayedCount, setDisplayedCount] = useState(3); // 현재까지 표시한 문장 수
 
   const handleCopy = async (text: string) => {
     try {
@@ -131,10 +132,10 @@ export default function SentencePage() {
 
   const handleRegenerate = async () => {
     if (!situation || !intent) return;
-    
+
     try {
       setRegenerating(true);
-      
+
       // 재생 중인 오디오 정리
       if (audio) {
         audio.pause();
@@ -146,34 +147,51 @@ export default function SentencePage() {
       }
       setPlayingIndex(null);
       setAudio(null);
-      
-      // 상태를 먼저 초기화하여 리렌더링 강제
-      setSentences([]);
-      
-      // 항상 API를 호출하여 새로 생성 (저장된 문장이 있어도 강제로 재생성)
+
+      // 저장된 모든 문장 가져오기
+      const storedSentences = getLocalizedSentences(intent.sentences, language);
+
+      // 다음 3개를 표시할 수 있는지 확인
+      if (storedSentences && displayedCount < storedSentences.length) {
+        // 저장된 문장 중 다음 3개 표시
+        const nextBatch = storedSentences.slice(displayedCount, displayedCount + 3);
+        setSentences(nextBatch);
+        setDisplayedCount(displayedCount + 3);
+
+        const remaining = storedSentences.length - (displayedCount + 3);
+        if (remaining > 0) {
+          toast.success(`다음 문장을 표시했습니다. (${remaining}개 남음)`);
+        } else {
+          toast.success('모든 저장된 문장을 표시했습니다. 다음 클릭 시 새 문장을 생성합니다.');
+        }
+        return;
+      }
+
+      // 저장된 문장을 다 보여줬으면 API로 새로운 문장 생성
+      console.log('[Regenerate] All stored sentences shown, generating new ones...');
       const response = await apiPost<{ sentences: string[]; generatedAt: string }>(
         API_ENDPOINTS.GENERATE,
         {
           situationId: situation.id,
           intentId: intent.id,
           language,
-          forceGenerate: true, // 저장된 문장 무시하고 강제로 AI 생성
+          forceGenerate: true, // 강제로 AI 생성
         }
       );
-      
+
       // 새로운 배열을 생성하여 참조 변경 (React가 변경을 감지하도록)
-      const newSentences = Array.isArray(response.sentences) 
-        ? [...response.sentences] 
+      const newSentences = Array.isArray(response.sentences)
+        ? [...response.sentences]
         : response.sentences;
-      
-      console.log('[Regenerate] New sentences:', newSentences);
-      console.log('[Regenerate] Previous sentences:', sentences);
-      
+
+      console.log('[Regenerate] New generated sentences:', newSentences);
+
       setSentences(newSentences);
-      toast.success('문장이 다시 생성되었습니다');
+      setDisplayedCount(3); // 카운트 리셋
+      toast.success('새로운 문장이 생성되었습니다');
     } catch (err: any) {
       console.error('Failed to regenerate:', err);
-      
+
       // 에러 상세 정보 확인
       let errorMessage = '문장 생성에 실패했습니다';
       if (err?.response?.data?.message) {
@@ -181,22 +199,14 @@ export default function SentencePage() {
       } else if (err?.message) {
         errorMessage = err.message;
       }
-      
+
       console.error('[Regenerate Error Details]', {
         error: err,
         response: err?.response,
         message: errorMessage,
       });
-      
-      // 에러가 발생하면 저장된 문장이 있으면 그것을 사용
-      const storedSentences = getLocalizedSentences(intent.sentences, language);
-      if (storedSentences && storedSentences.length > 0) {
-        const newStoredSentences = [...storedSentences.slice(0, 3)];
-        setSentences(newStoredSentences);
-        toast.error(`새로운 문장 생성에 실패했습니다: ${errorMessage}. 저장된 문장을 표시합니다.`);
-      } else {
-        toast.error(`문장 생성에 실패했습니다: ${errorMessage}`);
-      }
+
+      toast.error(`문장 생성에 실패했습니다: ${errorMessage}`);
     } finally {
       setRegenerating(false);
     }
