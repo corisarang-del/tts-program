@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Situation, Intent } from '@/types';
+import { Situation, Intent, Locale } from '@/types';
 import { AppState } from '@/types/store';
 
 export const useAppStore = create<AppState>((set) => ({
@@ -9,11 +9,13 @@ export const useAppStore = create<AppState>((set) => ({
   sentences: [],
   ttsPlayed: false,
   resultRating: null,
+  language: 'ko',
 
   // Actions
   setSituation: (situation: Situation) => set({ situation }),
   setIntent: (intent: Intent) => set({ intent }),
   setSentences: (sentences: string[]) => set({ sentences }),
+  setLanguage: (language: Locale) => set({ language }),
   setTtsPlayed: (played: boolean) => set({ ttsPlayed: played }),
   setResultRating: (rating: number) => set({ resultRating: rating }),
   resetStore: () => set({
@@ -22,6 +24,7 @@ export const useAppStore = create<AppState>((set) => ({
     sentences: [],
     ttsPlayed: false,
     resultRating: null,
+    language: 'ko',
   }),
 }));
 

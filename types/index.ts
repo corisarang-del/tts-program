@@ -1,7 +1,12 @@
+export type Locale = 'ko' | 'en' | 'ja' | 'zh';
+
+export type LocalizedText = Partial<Record<Locale, string>>;
+export type LocalizedSentences = Partial<Record<Locale, string[]>>;
+
 export interface Situation {
   id: string;
-  name: string;
-  description: string;
+  name: LocalizedText;
+  description: LocalizedText;
   icon: string;
   displayOrder: number;
 }
@@ -9,9 +14,10 @@ export interface Situation {
 export interface Intent {
   id: string;
   situationId: string;
-  name: string;
-  description: string;
+  name: LocalizedText;
+  description: LocalizedText;
   displayOrder: number;
+  sentences?: LocalizedSentences;
 }
 
 export interface UsageLog {

@@ -108,11 +108,11 @@
   - [ ] 응답 형식: `{ sentences: [...] }`
   - [ ] 에러 핸들링 및 재시도 로직
   
-- [ ] `/app/api/tts/route.ts` - POST (Priority: P1)
-  - [ ] Body: `{ text }`
-  - [ ] TTS API 호출 (Google Cloud TTS / AWS Polly)
-  - [ ] 오디오 URL 반환
-  - [ ] 캐싱 전략 구현
+- [x] `/app/api/tts/route.ts` - POST (Priority: P1)
+  - [x] Body: `{ text }`
+  - [x] TTS API 호출 (Google Cloud Text-to-Speech)
+  - [x] 오디오 Buffer 반환
+  - [x] 캐싱 전략 구현 (메모리 + 파일 캐시)
   
 - [ ] `/app/api/log/route.ts` - POST
   - [ ] Body: `{ type, situationId, intentId, sentences, rating, ttsPlayed, timestamp }`
@@ -363,12 +363,19 @@
 
 ### MVP 출시 조건
 - [x] 모든 P0 항목 완료
+- [x] 환경 설정 및 기본 구조 완료
+- [x] 공통 컴포넌트 및 상태 관리 완료
+- [x] 백엔드 API 구현 완료 (OpenAI GPT-4, Google Cloud TTS)
+- [x] 프론트엔드 페이지 구현 완료
+- [x] 데이터베이스 연동 완료 (Supabase PostgreSQL)
+- [x] 에러 핸들링 및 로깅 시스템 완료
+- [x] Jest 테스트 환경 설정 완료
 - [ ] 전체 플로우 정상 동작 확인
 - [ ] 3명 이상 베타 테스터 피드백 수집
 - [ ] Lighthouse 성능 점수 > 85
 - [ ] 모바일/데스크톱 양쪽에서 정상 작동
-- [ ] 프로덕션 배포 완료
-- [ ] 최소 3가지 상황, 각 3가지 의도 데이터 준비
+- [x] 프로덕션 배포 준비 완료 (GitHub 푸시 완료)
+- [x] 최소 3가지 상황, 각 3가지 의도 데이터 준비
 
 ---
 

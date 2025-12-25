@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppStore } from '@/lib/store';
 import { apiGet, apiPost } from '@/lib/api';
@@ -10,24 +10,17 @@ import { API_ENDPOINTS } from '@/lib/constants';
 import Header from '@/components/ui/Header';
 import Button from '@/components/ui/Button';
 import Loader from '@/components/ui/Loader';
+import { getLocalizedSentences, getLocalizedText } from '@/lib/i18n';
 
 export default function IntentPage() {
   const router = useRouter();
-  const { situation, setIntent, setSentences } = useAppStore();
+  const { situation, setIntent, setSentences, language } = useAppStore();
   const [intents, setIntents] = useState<Intent[]>([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (!situation) {
-      router.push('/situation');
-      return;
-    }
-    fetchIntents();
-  }, [situation, router]);
-
-  const fetchIntents = async () => {
+  const fetchIntents = useCallback(async () => {
     if (!situation) return;
     
     try {
@@ -43,26 +36,44 @@ export default function IntentPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [situation]);
+
+  useEffect(() => {
+    if (!situation) {
+      router.push('/situation');
+      return;
+    }
+    fetchIntents();
+  }, [situation, router, fetchIntents]);
+
 
   const handleIntentClick = async (intent: Intent) => {
     if (!situation) return;
     
     try {
-      setGenerating(true);
       setIntent(intent);
+
+      const storedSentences = getLocalizedSentences(intent.sentences, language);
+      if (storedSentences && storedSentences.length > 0) {
+        setSentences(storedSentences.slice(0, 3));
+        router.push('/sentence');
+        return;
+      }
+
+      setGenerating(true);
       
       // 문장 생성 API 호출
       const response = await apiPost<GenerateResponse>(API_ENDPOINTS.GENERATE, {
         situationId: situation.id,
         intentId: intent.id,
+        language,
       });
       
       setSentences(response.sentences);
       router.push('/sentence');
     } catch (err) {
       console.error('Failed to generate sentences:', err);
-      setError('문장 생성 중 오류가 발생했습니다.');
+      setError('문장 생성에 실패했습니다.');
     } finally {
       setGenerating(false);
     }
@@ -74,11 +85,11 @@ export default function IntentPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header title="어떻게 전달하고 싶으신가요?" showBack backUrl="/situation" />
+      <Header title={getLocalizedText(situation.name, language)} showBack backUrl="/situation" />
       
       <main className="container mx-auto px-4 py-8">
         <div className="mb-6 text-center">
-          <p className="text-gray-600">선택한 상황: <span className="font-semibold text-gray-900">{situation.name}</span></p>
+          <p className="text-gray-600">어떤 의도인가요? <span className="font-semibold text-gray-900">{getLocalizedText(situation.name, language)}</span></p>
         </div>
 
         {loading ? (
@@ -108,8 +119,8 @@ export default function IntentPage() {
                 disabled={generating}
               >
                 <div>
-                  <div className="font-semibold">{intent.name}</div>
-                  <div className="text-sm opacity-90">{intent.description}</div>
+                  <div className="font-semibold">{getLocalizedText(intent.name, language)}</div>
+                  <div className="text-sm opacity-90">{getLocalizedText(intent.description, language)}</div>
                 </div>
               </Button>
             ))}
@@ -119,6 +130,3 @@ export default function IntentPage() {
     </div>
   );
 }
-
-
-

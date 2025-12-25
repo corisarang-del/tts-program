@@ -28,6 +28,14 @@ yarn-error.log*
 .env*.local
 .env
 
+# credentials
+credentials/
+*.json
+!package.json
+!package-lock.json
+!tsconfig.json
+!tsconfig.*.json
+
 # vercel
 .vercel
 

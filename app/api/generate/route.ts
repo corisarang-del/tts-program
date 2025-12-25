@@ -3,11 +3,12 @@ import { generateSentences } from '@/lib/openai';
 import { getSituations, getIntents } from '@/lib/db';
 import { GenerateResponse } from '@/types/api';
 import { createErrorResponse, logError, AppError } from '@/lib/error-handler';
+import { getLocalizedSentences, LOCALES } from '@/lib/i18n';
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { situationId, intentId } = body;
+    const { situationId, intentId, language, forceGenerate } = body;
     
     if (!situationId || !intentId) {
       throw new AppError(
@@ -35,7 +36,23 @@ export async function POST(request: NextRequest) {
     }
     
     // OpenAI로 문장 생성
-    const sentences = await generateSentences(situation, intent);
+    const normalizedLanguage =
+      typeof language === 'string' && LOCALES.includes(language as any)
+        ? language
+        : 'ko';
+    
+    // forceGenerate가 true가 아니면 저장된 문장 우선 사용
+    const storedSentences = getLocalizedSentences(intent.sentences, normalizedLanguage);
+    if (!forceGenerate && storedSentences && storedSentences.length > 0) {
+      const response: GenerateResponse = {
+        sentences: storedSentences.slice(0, 3),
+        generatedAt: new Date().toISOString(),
+      };
+      return NextResponse.json(response);
+    }
+
+    // forceGenerate가 true이거나 저장된 문장이 없으면 AI로 생성
+    const sentences = await generateSentences(situation, intent, normalizedLanguage);
     
     const response: GenerateResponse = {
       sentences,
@@ -67,4 +84,3 @@ export async function POST(request: NextRequest) {
     return createErrorResponse(error, '문장 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
   }
 }
-

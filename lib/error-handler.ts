@@ -29,6 +29,22 @@ export function createErrorResponse(
   }
 
   if (error instanceof Error) {
+    // 환경 변수 에러 처리
+    if (
+      error.message.includes('environment variable') ||
+      error.message.includes('is not set') ||
+      error.message.includes('OPENAI_API_KEY') ||
+      error.message.includes('GOOGLE_GEMINI_API_KEY')
+    ) {
+      return NextResponse.json(
+        {
+          error: 'Configuration error',
+          message: '서버 설정이 올바르지 않습니다. 관리자에게 문의해주세요.',
+        },
+        { status: 500 }
+      );
+    }
+
     // OpenAI API 에러 처리
     if (error.message.includes('rate limit') || error.message.includes('429')) {
       return NextResponse.json(
@@ -78,6 +94,5 @@ export function logError(error: unknown, context: string): void {
   }
   // 프로덕션에서는 에러 로깅 서비스에 전송
 }
-
 
 

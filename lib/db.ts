@@ -1,14 +1,15 @@
 import { createClient } from '@supabase/supabase-js';
-import { Situation, Intent, UsageLog } from '@/types';
+import { Situation, Intent, UsageLog, LocalizedText, LocalizedSentences } from '@/types';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 let supabase: ReturnType<typeof createClient> | null = null;
 
-if (supabaseUrl && supabaseKey) {
-  supabase = createClient(supabaseUrl, supabaseKey);
-}
+// Supabase 연결을 일시적으로 비활성화 (JSON 파일 사용)
+// if (supabaseUrl && supabaseKey) {
+//   supabase = createClient(supabaseUrl, supabaseKey);
+// }
 
 // PostgreSQL 직접 연결을 위한 대안 (환경 변수에 DATABASE_URL이 있는 경우)
 const getDatabaseUrl = () => {
@@ -30,22 +31,39 @@ export async function checkConnection(): Promise<boolean> {
 
 // 데이터베이스 필드를 TypeScript 타입으로 매핑
 function mapSituationFromDb(row: any): Situation {
+  const name =
+    typeof row.name === 'string' ? ({ ko: row.name } as LocalizedText) : row.name;
+  const description =
+    typeof row.description === 'string'
+      ? ({ ko: row.description } as LocalizedText)
+      : row.description;
   return {
     id: row.id,
-    name: row.name,
-    description: row.description,
+    name,
+    description,
     icon: row.icon,
     displayOrder: row.display_order,
   };
 }
 
 function mapIntentFromDb(row: any): Intent {
+  const name =
+    typeof row.name === 'string' ? ({ ko: row.name } as LocalizedText) : row.name;
+  const description =
+    typeof row.description === 'string'
+      ? ({ ko: row.description } as LocalizedText)
+      : row.description;
+  const sentences =
+    Array.isArray(row.sentences)
+      ? ({ ko: row.sentences } as LocalizedSentences)
+      : row.sentences;
   return {
     id: row.id,
     situationId: row.situation_id,
-    name: row.name,
-    description: row.description,
+    name,
+    description,
     displayOrder: row.display_order,
+    sentences,
   };
 }
 
@@ -162,4 +180,3 @@ CREATE INDEX IF NOT EXISTS idx_intents_situation_id ON intents(situation_id);
 CREATE INDEX IF NOT EXISTS idx_usage_logs_session_id ON usage_logs(session_id);
 CREATE INDEX IF NOT EXISTS idx_usage_logs_timestamp ON usage_logs(timestamp);
 `;
-

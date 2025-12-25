@@ -2,6 +2,8 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { useAppStore } from '@/lib/store';
+import { LOCALES, LOCALE_LABELS } from '@/lib/i18n';
 
 interface HeaderProps {
   title?: string;
@@ -11,6 +13,7 @@ interface HeaderProps {
 
 export default function Header({ title, showBack = false, backUrl }: HeaderProps) {
   const router = useRouter();
+  const { language, setLanguage } = useAppStore();
   
   const handleBack = () => {
     if (backUrl) {
@@ -42,8 +45,19 @@ export default function Header({ title, showBack = false, backUrl }: HeaderProps
         <Link href="/" className="text-primary font-bold text-lg">
           QuickTalk
         </Link>
+        <select
+          className="ml-4 rounded-md border border-gray-200 bg-white px-2 py-1 text-sm text-gray-700"
+          value={language}
+          onChange={(event) => setLanguage(event.target.value as typeof language)}
+          aria-label="Language"
+        >
+          {LOCALES.map(locale => (
+            <option key={locale} value={locale}>
+              {LOCALE_LABELS[locale]}
+            </option>
+          ))}
+        </select>
       </div>
     </header>
   );
 }
-

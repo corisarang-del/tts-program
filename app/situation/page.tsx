@@ -10,10 +10,11 @@ import { API_ENDPOINTS } from '@/lib/constants';
 import Header from '@/components/ui/Header';
 import Card from '@/components/ui/Card';
 import Loader from '@/components/ui/Loader';
+import { getLocalizedText } from '@/lib/i18n';
 
 export default function SituationPage() {
   const router = useRouter();
-  const { setSituation } = useAppStore();
+  const { setSituation, language } = useAppStore();
   const [situations, setSituations] = useState<Situation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -73,9 +74,11 @@ export default function SituationPage() {
                   <div className="text-4xl">{getIcon(situation.icon)}</div>
                   <div className="flex-1">
                     <h3 className="text-xl font-semibold mb-2 text-gray-900">
-                      {situation.name}
+                      {getLocalizedText(situation.name, language)}
                     </h3>
-                    <p className="text-gray-600">{situation.description}</p>
+                    <p className="text-gray-600">
+                      {getLocalizedText(situation.description, language)}
+                    </p>
                   </div>
                 </div>
               </Card>
@@ -93,6 +96,19 @@ function getIcon(iconName: string): string {
     calendar: '📅',
     'help-circle': '❓',
     'file-text': '📄',
+    map: '🗺️',
+    restroom: '🚻',
+    restaurant: '🍽️',
+    accessibility: '♿',
+    medical: '🏥',
+    lost: '🧳',
+    airport: '✈️',
+    hotel: '🏨',
+    hospital: '🏥',
+    police: '🚓',
+    transport: '🚌',
+    shopping: '🛍️',
+    tour: '🎟️',
   };
   return icons[iconName] || '📋';
 }

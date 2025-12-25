@@ -1,33 +1,291 @@
 [
   {
     "id": "situation_001",
-    "name": "회의 지각",
-    "description": "회의에 늦을 때",
+    "name": {
+      "ko": "지각",
+      "en": "Running late",
+      "ja": "遅刻",
+      "zh": "迟到"
+    },
+    "description": {
+      "ko": "지각 사유를 전달",
+      "en": "Explain that you're running late",
+      "ja": "遅刻の理由を伝える",
+      "zh": "说明迟到原因"
+    },
     "icon": "clock",
     "displayOrder": 1
   },
   {
     "id": "situation_002",
-    "name": "일정 변경 요청",
-    "description": "약속 시간을 변경하고 싶을 때",
+    "name": {
+      "ko": "일정 변경 요청",
+      "en": "Request to reschedule",
+      "ja": "日程変更の依頼",
+      "zh": "请求改期"
+    },
+    "description": {
+      "ko": "약속 일정을 변경하고자 할 때",
+      "en": "When you need to change an appointment",
+      "ja": "約束の予定を変更したいとき",
+      "zh": "需要更改约定时"
+    },
     "icon": "calendar",
     "displayOrder": 2
   },
   {
     "id": "situation_003",
-    "name": "도움 요청",
-    "description": "동료나 상사에게 도움을 요청할 때",
+    "name": {
+      "ko": "도움 요청",
+      "en": "Asking for help",
+      "ja": "助けの依頼",
+      "zh": "请求帮助"
+    },
+    "description": {
+      "ko": "동료나 상사에게 도움을 요청",
+      "en": "Ask a colleague or manager for help",
+      "ja": "同僚や上司に助けを頼む",
+      "zh": "向同事或上司寻求帮助"
+    },
     "icon": "help-circle",
     "displayOrder": 3
   },
   {
     "id": "situation_004",
-    "name": "보고 사항",
-    "description": "업무 진행 상황을 보고할 때",
+    "name": {
+      "ko": "보고 사항",
+      "en": "Status report",
+      "ja": "報告事項",
+      "zh": "工作汇报"
+    },
+    "description": {
+      "ko": "업무 진행 상황을 보고",
+      "en": "Report work progress",
+      "ja": "業務の進捗を報告する",
+      "zh": "汇报工作进度"
+    },
     "icon": "file-text",
     "displayOrder": 4
+  },
+  {
+    "id": "situation_005",
+    "name": {
+      "ko": "길 물어보기",
+      "en": "Asking for directions",
+      "ja": "道を尋ねる",
+      "zh": "问路"
+    },
+    "description": {
+      "ko": "처음 가는 곳에서 길을 문의",
+      "en": "Ask for directions in an unfamiliar place",
+      "ja": "初めて行く場所で道を尋ねる",
+      "zh": "在陌生地方询问路线"
+    },
+    "icon": "map",
+    "displayOrder": 5
+  },
+  {
+    "id": "situation_006",
+    "name": {
+      "ko": "화장실 찾기",
+      "en": "Finding a restroom",
+      "ja": "トイレを探す",
+      "zh": "找洗手间"
+    },
+    "description": {
+      "ko": "공공장소에서 화장실 위치 문의",
+      "en": "Ask for the restroom in public places",
+      "ja": "公共の場でトイレの場所を尋ねる",
+      "zh": "在公共场所询问洗手间位置"
+    },
+    "icon": "restroom",
+    "displayOrder": 6
+  },
+  {
+    "id": "situation_007",
+    "name": {
+      "ko": "음식점 주문",
+      "en": "Ordering at a restaurant",
+      "ja": "飲食店で注文",
+      "zh": "餐厅点餐"
+    },
+    "description": {
+      "ko": "식당에서 주문하거나 요청하기",
+      "en": "Order or make requests at a restaurant",
+      "ja": "飲食店で注文やリクエストをする",
+      "zh": "在餐厅点餐或提出需求"
+    },
+    "icon": "restaurant",
+    "displayOrder": 7
+  },
+  {
+    "id": "situation_008",
+    "name": {
+      "ko": "의사소통 어려움",
+      "en": "Communication difficulty",
+      "ja": "意思疎通が難しい",
+      "zh": "沟通困难"
+    },
+    "description": {
+      "ko": "말하거나 듣기 어렵다는 점을 알리고 도움 요청",
+      "en": "Let others know speaking/hearing is difficult",
+      "ja": "話す・聞くのが難しいことを伝える",
+      "zh": "告知说话或听力有困难"
+    },
+    "icon": "accessibility",
+    "displayOrder": 8
+  },
+  {
+    "id": "situation_009",
+    "name": {
+      "ko": "건강/약국 문의",
+      "en": "Health/pharmacy help",
+      "ja": "病院・薬局で相談",
+      "zh": "就医/药店咨询"
+    },
+    "description": {
+      "ko": "몸이 아플 때 증상이나 약 문의",
+      "en": "Describe symptoms or ask for medicine",
+      "ja": "症状の説明や薬の相談",
+      "zh": "说明症状或咨询用药"
+    },
+    "icon": "medical",
+    "displayOrder": 9
+  },
+  {
+    "id": "situation_010",
+    "name": {
+      "ko": "분실/긴급 도움",
+      "en": "Lost item / urgent help",
+      "ja": "紛失・緊急の助け",
+      "zh": "失物/紧急求助"
+    },
+    "description": {
+      "ko": "물건 분실이나 긴급 상황 도움 요청",
+      "en": "Ask for help with lost items or emergencies",
+      "ja": "紛失や緊急時に助けを求める",
+      "zh": "请求寻找失物或紧急帮助"
+    },
+    "icon": "lost",
+    "displayOrder": 10
+  },
+  {
+    "id": "situation_011",
+    "name": {
+      "ko": "공항/출입국",
+      "en": "Airport/immigration",
+      "ja": "空港/入国審査",
+      "zh": "机场/出入境"
+    },
+    "description": {
+      "ko": "공항 안내나 출입국 심사 관련 문의",
+      "en": "Immigration questions or airport guidance",
+      "ja": "入国審査や空港案内の相談",
+      "zh": "出入境或机场指引咨询"
+    },
+    "icon": "airport",
+    "displayOrder": 11
+  },
+  {
+    "id": "situation_012",
+    "name": {
+      "ko": "호텔 체크인",
+      "en": "Hotel check-in",
+      "ja": "ホテルチェックイン",
+      "zh": "酒店入住"
+    },
+    "description": {
+      "ko": "예약, 체크인/체크아웃 문의",
+      "en": "Reservation, check-in/out questions",
+      "ja": "予約・チェックイン/アウトの相談",
+      "zh": "预订、入住/退房咨询"
+    },
+    "icon": "hotel",
+    "displayOrder": 12
+  },
+  {
+    "id": "situation_013",
+    "name": {
+      "ko": "병원 접수",
+      "en": "Clinic registration",
+      "ja": "病院受付",
+      "zh": "医院挂号"
+    },
+    "description": {
+      "ko": "접수, 보험/신분증, 통역 문의",
+      "en": "Register, insurance/ID, interpretation",
+      "ja": "受付・保険/身分証・通訳の相談",
+      "zh": "挂号、保险/身份证、翻译咨询"
+    },
+    "icon": "hospital",
+    "displayOrder": 13
+  },
+  {
+    "id": "situation_014",
+    "name": {
+      "ko": "관공서/경찰",
+      "en": "Public office/police",
+      "ja": "官公庁/警察",
+      "zh": "政府机关/警察"
+    },
+    "description": {
+      "ko": "분실 신고나 도움 요청",
+      "en": "Report loss or ask for assistance",
+      "ja": "紛失届や助けの依頼",
+      "zh": "失物报告或求助"
+    },
+    "icon": "police",
+    "displayOrder": 14
+  },
+  {
+    "id": "situation_015",
+    "name": {
+      "ko": "교통/이동 문제",
+      "en": "Transportation issues",
+      "ja": "交通/移動の問題",
+      "zh": "交通/移动问题"
+    },
+    "description": {
+      "ko": "교통 문제나 장애 문의",
+      "en": "Ask about transit issues or problems",
+      "ja": "交通問題や障害の相談",
+      "zh": "询问交通问题或障碍"
+    },
+    "icon": "transport",
+    "displayOrder": 15
+  },
+  {
+    "id": "situation_016",
+    "name": {
+      "ko": "쇼핑/환불/교환",
+      "en": "Shopping/returns",
+      "ja": "ショッピング/返金/交換",
+      "zh": "购物/退款/换货"
+    },
+    "description": {
+      "ko": "구매, 환불, 교환 문의",
+      "en": "Purchase, refund, or exchange",
+      "ja": "購入・返金・交換の相談",
+      "zh": "购买、退款、换货咨询"
+    },
+    "icon": "shopping",
+    "displayOrder": 16
+  },
+  {
+    "id": "situation_017",
+    "name": {
+      "ko": "관광/티켓 문의",
+      "en": "Tourism/tickets",
+      "ja": "観光/チケット",
+      "zh": "旅游/门票"
+    },
+    "description": {
+      "ko": "티켓, 예약, 입장 문의",
+      "en": "Tickets, reservations, entry questions",
+      "ja": "チケット・予約・入場の相談",
+      "zh": "门票、预订、入场咨询"
+    },
+    "icon": "tour",
+    "displayOrder": 17
   }
 ]
-
-
-

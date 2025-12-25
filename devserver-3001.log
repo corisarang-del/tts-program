@@ -1,0 +1,97 @@
+
+> quicktalk@0.1.0 dev
+> next dev --port 3001
+
+  ▲ Next.js 14.2.35
+  - Local:        http://localhost:3001
+
+ ✓ Starting...
+ ✓ Ready in 4.2s
+ ○ Compiling /api/situations ...
+ ✓ Compiled /api/situations in 1065ms (99 modules)
+ GET /api/situations 200 in 1298ms
+ GET /api/situations 200 in 11ms
+ ○ Compiling /api/intents ...
+ ✓ Compiled /api/intents in 688ms (101 modules)
+ GET /api/intents?situationId=situation_017 200 in 810ms
+ ✓ Compiled /api/generate in 259ms (106 modules)
+ POST /api/generate 200 in 320ms
+ POST /api/generate 200 in 13ms
+ POST /api/generate 200 in 10ms
+ POST /api/generate 200 in 11ms
+ ○ Compiling /api/tts ...
+ ✓ Compiled /api/tts in 5.1s (463 modules)
+[TTS Error] Error: Could not load the default credentials. Browse to https://cloud.google.com/docs/authentication/getting-started for more information.
+    at GoogleAuth.getApplicationDefaultAsync (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:284:15)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at runNextTicks (node:internal/process/task_queues:68:3)
+    at listOnTimeout (node:internal/timers:567:9)
+    at process.processTimers (node:internal/timers:541:7)
+    at async #determineClient (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:764:36)
+    at async GoogleAuth.getClient (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:741:20)
+    at async GrpcClient._getCredentials (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-gax@5.0.6/node_modules/google-gax/build/src/grpc.js:192:24)
+    at async GrpcClient.createStub (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-gax@5.0.6/node_modules/google-gax/build/src/grpc.js:373:23)
+[POST /api/tts] AppError: Google Cloud 인증에 실패했습니다. 환경 변수를 확인해주세요.
+    at generateTTS (webpack-internal:///(rsc)/./lib/tts.ts:180:23)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at runNextTicks (node:internal/process/task_queues:68:3)
+    at listOnTimeout (node:internal/timers:567:9)
+    at process.processTimers (node:internal/timers:541:7)
+    at async POST (webpack-internal:///(rsc)/./app/api/tts/route.ts:20:41)
+    at async C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:57228
+    at async eT.execute (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:46851)
+    at async eT.handle (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\compiled\next-server\app-route.runtime.dev.js:6:58760)
+    at async doRender (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\base-server.js:1366:42)
+    at async cacheEntry.responseCache.get.routeKind (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\base-server.js:1588:28)
+    at async DevServer.renderToResponseWithComponentsImpl (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\base-server.js:1496:28)
+    at async DevServer.renderPageComponent (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\base-server.js:1924:24)
+    at async DevServer.renderToResponseImpl (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\base-server.js:1962:32)
+    at async DevServer.pipeImpl (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\base-server.js:922:25)
+    at async NextNodeServer.handleCatchallRenderRequest (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\next-server.js:272:17)
+    at async DevServer.handleRequestImpl (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\base-server.js:818:17)
+    at async C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\dev\next-dev-server.js:339:20
+    at async Span.traceAsyncFn (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\trace\trace.js:154:20)
+    at async DevServer.handleRequest (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\dev\next-dev-server.js:336:24)
+    at async invokeRender (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\lib\router-server.js:179:21)
+    at async handleRequest (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\lib\router-server.js:359:24)
+    at async requestHandlerImpl (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\lib\router-server.js:383:13)
+    at async Server.requestListener (C:\Users\khc\Desktop\fastcamp\3주차\ai tts\node_modules\.pnpm\next@14.2.35_@babel+core@7._95ebaecc2475824ac3b6e85c0682411a\node_modules\next\dist\server\lib\start-server.js:141:13) {
+  statusCode: 500,
+  errorCode: 'GOOGLE_CLOUD_AUTH_ERROR',
+  retryAfter: undefined
+}
+(node:13740) MetadataLookupWarning: received unexpected error = All promises were rejected code = UNKNOWN
+(Use `node --trace-warnings ...` to show where the warning was created)
+ POST /api/tts 500 in 8992ms
+Error: Could not load the default credentials. Browse to https://cloud.google.com/docs/authentication/getting-started for more information.
+    at GoogleAuth.getApplicationDefaultAsync (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:284:15)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at runNextTicks (node:internal/process/task_queues:68:3)
+    at listOnTimeout (node:internal/timers:567:9)
+    at process.processTimers (node:internal/timers:541:7)
+    at async #determineClient (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:764:36)
+    at async GoogleAuth.getClient (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:741:20)
+    at async GrpcClient._getCredentials (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-gax@5.0.6/node_modules/google-gax/build/src/grpc.js:192:24)
+    at async GrpcClient.createStub (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-gax@5.0.6/node_modules/google-gax/build/src/grpc.js:373:23)
+ ⨯ unhandledRejection: Error: Could not load the default credentials. Browse to https://cloud.google.com/docs/authentication/getting-started for more information.
+    at GoogleAuth.getApplicationDefaultAsync (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:284:15)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at runNextTicks (node:internal/process/task_queues:68:3)
+    at listOnTimeout (node:internal/timers:567:9)
+    at process.processTimers (node:internal/timers:541:7)
+    at async #determineClient (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:764:36)
+    at async GoogleAuth.getClient (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:741:20)
+    at async GrpcClient._getCredentials (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-gax@5.0.6/node_modules/google-gax/build/src/grpc.js:192:24)
+    at async GrpcClient.createStub (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-gax@5.0.6/node_modules/google-gax/build/src/grpc.js:373:23)
+ ⨯ unhandledRejection: Error: Could not load the default credentials. Browse to https://cloud.google.com/docs/authentication/getting-started for more information.
+    at GoogleAuth.getApplicationDefaultAsync (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:284:15)
+    at processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at runNextTicks (node:internal/process/task_queues:68:3)
+    at listOnTimeout (node:internal/timers:567:9)
+    at process.processTimers (node:internal/timers:541:7)
+    at async #determineClient (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:764:36)
+    at async GoogleAuth.getClient (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-auth-library@10.5.0/node_modules/google-auth-library/build/src/auth/googleauth.js:741:20)
+    at async GrpcClient._getCredentials (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-gax@5.0.6/node_modules/google-gax/build/src/grpc.js:192:24)
+    at async GrpcClient.createStub (webpack-internal:///(rsc)/../../../../node_modules/.pnpm/google-gax@5.0.6/node_modules/google-gax/build/src/grpc.js:373:23)
+�ϰ� �۾��� �����ðڽ��ϱ� (Y/N)? 
+[?25h

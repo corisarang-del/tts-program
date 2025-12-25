@@ -152,7 +152,7 @@ TTS 버튼	각 문장마다 재생 버튼	P0
 • Redis (캐싱)
 AI/ML
 • OpenAI GPT-4 API (문장 생성)
-• Google Cloud TTS 또는 AWS Polly (음성 합성)
+• Google Cloud Text-to-Speech (음성 합성)
 인프라
 • Vercel 또는 AWS (호스팅)
 • CloudFlare (CDN)

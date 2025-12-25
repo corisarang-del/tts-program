@@ -46,9 +46,9 @@
   - **이유**: 자연스러운 문장 생성, 다양한 상황/의도 처리 가능
   - **장점**: 빠른 응답 속도, 한국어 성능 우수, API 사용 간편
   
-- **Google Cloud TTS / AWS Polly**
-  - **이유**: 고품질 한국어 음성 합성, 안정적 서비스
-  - **장점**: 다양한 목소리 선택, 캐싱 가능, 합리적 가격
+- **Google Cloud Text-to-Speech**
+  - **이유**: 고품질 한국어 음성 합성, 안정적 서비스, 다양한 음성 옵션
+  - **장점**: Standard/Wavenet 음성 선택, 캐싱 가능, 합리적 가격, 한국어 최적화
 
 #### **Database & Storage**
 - **Vercel KV (Redis) 또는 PostgreSQL**
@@ -316,7 +316,7 @@ Content-Type: application/json
 ---
 
 ### 4. POST `/api/tts`
-**목적**: 텍스트를 음성으로 변환 (TTS)
+**목적**: 텍스트를 음성으로 변환 (Google Cloud TTS)
 
 **Request**
 ```http
@@ -325,17 +325,27 @@ Content-Type: application/json
 
 {
   "text": "죄송합니다. 교통 상황으로 10분 정도 늦을 것 같습니다.",
-  "voice": "ko-KR-Standard-A"  // optional
+  "voice": "ko-KR-Standard-A"  // optional, 기본값: ko-KR-Standard-A
 }
 ```
 
+**지원 음성**:
+- `ko-KR-Standard-A` (여성, 기본값)
+- `ko-KR-Standard-B` (남성)
+- `ko-KR-Standard-C` (여성)
+- `ko-KR-Standard-D` (남성)
+- `ko-KR-Wavenet-A` (고품질 여성)
+- `ko-KR-Wavenet-B` (고품질 남성)
+- `ko-KR-Wavenet-C` (고품질 여성)
+- `ko-KR-Wavenet-D` (고품질 남성)
+
 **Response** (200 OK)
-```json
-{
-  "audioUrl": "https://storage.googleapis.com/.../audio-12345.mp3",
-  "duration": 3.5,
-  "cached": false
-}
+```
+Content-Type: audio/mpeg
+X-Audio-Cached: true/false
+X-Audio-Duration: 3.5
+
+[MP3 오디오 바이너리 데이터]
 ```
 
 **Error Response** (500)
@@ -570,8 +580,9 @@ JSON 배열 형식으로만 응답해주세요: ["문장1", "문장2", "문장3"
 
 ### 1. Prerequisites
 - Node.js 18+ 
-- npm 또는 yarn
+- pnpm (권장) 또는 npm
 - OpenAI API Key
+- Google Cloud 프로젝트 및 서비스 계정 키
 
 ### 2. 설치
 ```bash
@@ -586,21 +597,30 @@ npm install
 ### 3. 환경 변수 설정
 `.env.local` 파일 생성:
 ```env
-# OpenAI
+# OpenAI (문장 생성)
 OPENAI_API_KEY=sk-proj-...
 
-# TTS (선택 - Google Cloud 또는 AWS)
-GOOGLE_CLOUD_TTS_API_KEY=...
-# 또는
-AWS_ACCESS_KEY_ID=...
-AWS_SECRET_ACCESS_KEY=...
+# Google Cloud Text-to-Speech (음성 합성)
+# 방법 1: 서비스 계정 키 파일 경로
+GOOGLE_APPLICATION_CREDENTIALS=/path/to/service-account-key.json
 
-# Database (Phase 2)
-DATABASE_URL=postgresql://...
+# 방법 2: 프로젝트 ID와 키 JSON 문자열
+GOOGLE_CLOUD_PROJECT_ID=your-project-id
+GOOGLE_CLOUD_KEY={"type":"service_account","project_id":"..."}
+
+# Supabase (데이터베이스)
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 
 # Analytics (선택)
 NEXT_PUBLIC_VERCEL_ANALYTICS_ID=...
 ```
+
+**Google Cloud 설정 방법**:
+1. [Google Cloud Console](https://console.cloud.google.com/)에서 프로젝트 생성
+2. Cloud Text-to-Speech API 활성화
+3. 서비스 계정 생성 및 키 다운로드
+4. 환경 변수에 설정
 
 ### 4. 개발 서버 실행
 ```bash
@@ -807,13 +827,21 @@ export function trackEvent(eventName: string, data: any) {
 - OpenAI 대시보드에서 사용량 확인
 - 재시도 로직 추가
 
-### 2. TTS 재생 안됨 (모바일)
+### 2. Google Cloud TTS 인증 에러
+**문제**: `GOOGLE_CLOUD_TTS_NOT_CONFIGURED` 또는 인증 실패
+**해결**: 
+- `GOOGLE_APPLICATION_CREDENTIALS` 환경 변수에 서비스 계정 키 파일 경로 설정
+- 또는 `GOOGLE_CLOUD_PROJECT_ID`와 `GOOGLE_CLOUD_KEY` (JSON 문자열) 설정
+- Google Cloud Console에서 Cloud Text-to-Speech API 활성화 확인
+- 서비스 계정에 Text-to-Speech 권한 확인
+
+### 3. TTS 재생 안됨 (모바일)
 **문제**: iOS Safari에서 TTS 재생 안됨
 **해결**: 
 - 사용자 인터랙션 후 재생 시작
 - autoplay 정책 확인
 
-### 3. 빌드 에러
+### 4. 빌드 에러
 **문제**: `Module not found`
 **해결**:
 ```bash

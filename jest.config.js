@@ -6,7 +6,8 @@ const createJestConfig = nextJest({
 
 const customJestConfig = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  testEnvironment: 'jest-environment-jsdom',
+  // API Routes 테스트는 node 환경 사용 (Node.js 18+ Web API 지원)
+  testEnvironment: 'node',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/$1',
   },
@@ -20,6 +21,10 @@ const customJestConfig = {
     '!**/*.d.ts',
     '!**/node_modules/**',
   ],
+  // Next.js API Routes 테스트를 위한 설정
+  testEnvironmentOptions: {
+    customExportConditions: [''],
+  },
 }
 
 module.exports = createJestConfig(customJestConfig)

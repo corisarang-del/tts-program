@@ -1,182 +1,180 @@
-# QuickTalk MVP 개발 일지
+# 개발 일지 (Development Log)
 
-## 작성 시각
+## 2025-12-26 - 의도 리스트 표시 문제 해결 및 문장 데이터 확장
 
-2025-01-XX (개발 시작일)
+### 작성 시각
+2025-12-26
 
-## 해결하고자 한 문제
+### 해결하고자 한 문제
+1. **의도 리스트 미표시 문제**: 의도 선택 페이지에서 의도 목록이 화면에 표시되지 않는 문제
+2. **문장 데이터 부족**: 각 의도당 3개의 문장만 있어 다양성이 부족
+3. **Gemini API 키 미설정**: 새로운 문장 생성이 불가능한 상태
 
-상황 기반 즉시 소통 서비스(QuickTalk) MVP 개발을 통해:
+### 해결된 것
+1. ✅ **의도 리스트 표시 문제 해결**
+   - **원인**: `lib/db.ts`에서 Supabase 연결이 활성화되어 있었으나, 실제 데이터베이스에는 데이터가 없었음
+   - **해결 방법**: Supabase 연결을 주석 처리하여 JSON 파일(`data/intents.json`)을 사용하도록 수정
+   - **수정 파일**: `lib/db.ts`
 
-1. 사용자가 상황과 의도만 선택하면 AI가 즉시 사용 가능한 문장을 생성
-2. 생성된 문장을 음성(TTS)으로 제공
-3. 사용자 행동 로그를 수집하여 서비스 개선
+2. ✅ **문장 데이터 확장 (Intent 001~012)**
+   - 각 의도에 9개의 추가 문장을 생성하여 총 12개로 확장
+   - 4개 언어 (ko, en, ja, zh) 모두 12개 문장으로 확장
+   - 일본어와 중국어의 깨진 문자 수정
+   - **완료된 의도**: intent_001 ~ intent_012 (12개 의도)
 
-## 해결된 것
+3. ✅ **문장 데이터 확장 (Intent 013~054)**
+   - Intent 013~054 추가 완료 (42개 의도)
+   - 각 의도에 3개의 추가 문장을 생성하여 총 6개로 확장
+   - 4개 언어 (ko, en, ja, zh) 모두 6개 문장으로 확장
+   - **완료된 의도**: intent_013 ~ intent_054 (42개 의도)
+   - **전체 완료**: intent_001 ~ intent_054 (총 54개 의도)
 
-### 1. 프로젝트 초기화 및 환경 설정
+### 해결되지 않은 것
 
-- Next.js 14+ (App Router) 프로젝트 생성
-- TypeScript, Tailwind CSS 설정 완료
-- pnpm 패키지 매니저 사용
-- 필수 패키지 설치: zustand, axios, react-hot-toast, openai, @supabase/supabase-js
+2. ❌ **Gemini API 키 미설정**
+   - `.env.local` 파일에 `GOOGLE_GEMINI_API_KEY`가 `your-gemini-api-key` 플레이스홀더로 설정됨
+   - 실제 API 키가 필요하여 AI 기반 문장 생성 불가능
+   - 사용자가 직접 Gemini API 키를 발급받아 설정해야 함
 
-### 2. 타입 정의 및 상수
+3. ⏳ **Google Cloud TTS 인증 문제**
+   - 서비스 계정 키 파일이 제공되었으나 여전히 "Google Cloud TTS 설정이 필요합니다" 오류 발생
+   - 추가 디버깅 필요
 
-- Situation, Intent, UsageLog 타입 정의
-- API 응답 타입 정의
-- Store 타입 정의
-- API 엔드포인트 및 상수 정의
+### 향후 개발을 위한 컨텍스트 정리
 
-### 3. 데이터베이스 설정
+#### 1. 현재 프로젝트 상태
+- **데이터 소스**: JSON 파일 (`data/situations.json`, `data/intents.json`)
+- **데이터베이스**: Supabase 연결은 설정되어 있으나 현재는 사용하지 않음 (주석 처리)
+- **TTS**: Google Cloud Text-to-Speech API 사용 (인증 문제 있음)
+- **문장 생성**: Google Gemini API 사용 (API 키 미설정)
 
-- PostgreSQL 연결 설정 (Supabase 클라이언트 또는 직접 연결)
-- 데이터베이스 스키마 SQL 생성
-- 초기 데이터 JSON 파일 생성 (4개 상황, 12개 의도)
-- Fallback으로 JSON 파일 사용 가능하도록 구현
+#### 2. 데이터 구조
+```typescript
+interface Intent {
+  id: string;
+  situationId: string;
+  name: LocalizedText;
+  description: LocalizedText;
+  displayOrder: number;
+  sentences?: LocalizedSentences; // 선택적 필드
+}
 
-### 4. 상태 관리
-
-- Zustand store 구현
-- 상황, 의도, 문장, TTS 재생 여부, 평가 상태 관리
-- resetStore 액션 구현
-
-### 5. 공통 유틸리티
-
-- API fetch wrapper (GET, POST, 에러 핸들링)
-- 로깅 유틸리티 (세션 ID 생성, 디바이스 감지 등)
-- OpenAI 클라이언트 (문장 생성 함수, 프롬프트 템플릿)
-- TTS 클라이언트 (OpenAI TTS API 호출, 캐싱)
-
-### 6. 공통 UI 컴포넌트
-
-- Button 컴포넌트 (variant, size, loading 상태)
-- Card 컴포넌트 (hover/active 효과)
-- Loader 컴포넌트 (로딩 스피너)
-- Header 컴포넌트 (로고, 뒤로가기 버튼)
-
-### 7. API Routes 구현
-
-- GET /api/situations: 모든 상황 목록 반환
-- GET /api/intents: 특정 상황의 의도 목록 반환
-- POST /api/generate: OpenAI로 문장 생성
-- POST /api/tts: OpenAI TTS로 음성 생성
-- POST /api/log: 사용자 행동 로그 저장
-
-### 8. 프론트엔드 페이지 구현
-
-- 랜딩 페이지: 서비스 소개, 핵심 가치, 사용 방법
-- 상황 선택 페이지: 상황 카드 그리드, 클릭 시 의도 선택으로 이동
-- 의도 선택 페이지: 의도 버튼 리스트, 클릭 시 문장 생성
-- 문장 출력 페이지: 생성된 문장 표시, 복사, TTS 재생, 다시 생성
-- 결과 평가 페이지: 평가 버튼 (해결됨/보통/도움 안됨), 건너뛰기
-- 분석 페이지: 사용 완료 메시지, 재사용 CTA
-
-### 9. 스타일링
-
-- Tailwind CSS 커스터마이징 (브랜드 컬러)
-- 반응형 디자인 (모바일 우선)
-- 글로벌 스타일 설정
-
-### 10. 테스트 환경 설정 및 에러 핸들링 개선 (최신)
-
-- Jest 테스트 환경 설정
-- API 엔드포인트 테스트 작성 (TDD 방식)
-- 통합 에러 핸들러 구현 (AppError 클래스, createErrorResponse 함수)
-- 모든 API Routes에 에러 핸들러 적용
-- 환경 변수 설정 파일 (.env.local.example) 생성
-- API 테스트 스크립트 작성 (bash, PowerShell)
-
-## 안된 것 / 향후 개선 사항
-
-### 1. 데이터베이스 연동
-
-- 현재는 JSON 파일 fallback만 작동
-- PostgreSQL/Supabase 실제 연동 필요
-- 환경 변수 설정 필요 (DATABASE_URL 또는 Supabase 키)
-
-### 2. OpenAI API 키 설정
-
-- .env.local 파일에 OPENAI_API_KEY 설정 필요
-- 실제 API 호출 테스트 필요
-
-### 3. TTS 캐싱
-
-- 현재 파일 시스템 캐싱 구현됨
-- 프로덕션 환경에서는 Redis 또는 Vercel KV 사용 권장
-
-### 4. 테스트 실행
-
-- Jest 테스트 실행 필요 (`pnpm test`)
-- 실제 API 호출 테스트 필요 (테스트 스크립트 사용)
-
-### 5. 배포
-
-- Vercel 배포 설정 미완료
-- 환경 변수 설정 필요
-- 프로덕션 빌드 테스트 필요
-
-## 향후 개발을 위한 컨텍스트
-
-### 환경 변수 설정 필요
-
-`.env.local` 파일 생성:
-
-```env
-OPENAI_API_KEY=sk-proj-...
-DATABASE_URL=postgresql://...
-# 또는
-NEXT_PUBLIC_SUPABASE_URL=...
-NEXT_PUBLIC_SUPABASE_ANON_KEY=...
-NEXT_PUBLIC_API_URL=http://localhost:3000
-NODE_ENV=development
+type LocalizedSentences = {
+  ko: string[];
+  en: string[];
+  ja: string[];
+  zh: string[];
+};
 ```
 
-### 데이터베이스 스키마 실행
+#### 3. 우선순위 로직
+- **저장된 문장 우선**: `intent.sentences`에 값이 있으면 이를 먼저 사용
+- **AI 생성 폴백**: 저장된 문장이 없거나 `forceGenerate: true`일 때만 Gemini API 호출
 
-`lib/db.ts`의 `CREATE_SCHEMA_SQL`을 PostgreSQL에서 실행 필요
+#### 4. 다음 단계
+1. **즉시 해결 필요**:
+   - 나머지 42개 의도에 대해 각각 9개 문장 추가 (intent_013 ~ intent_054)
+   - Google Cloud TTS 인증 문제 해결
 
-### 초기 데이터 삽입
+2. **사용자 설정 필요**:
+   - Gemini API 키 발급 및 `.env.local` 설정
+   - Google Cloud Project 설정 확인
 
-`data/situations.json`과 `data/intents.json`의 데이터를 데이터베이스에 삽입 필요
+3. **향후 개선 사항**:
+   - Supabase 데이터베이스에 데이터 마이그레이션 (옵션)
+   - 문장 데이터 추가 확장 (상황별 다양성 증가)
+   - TTS 캐싱 로직 개선
 
-### 개발 서버 실행
+#### 5. 파일 구조
+```
+data/
+  ├── situations.json     # 17개 상황 정의 (완료)
+  └── intents.json        # 54개 의도 정의 (완료)
+    - intent_001~012: 각 12개 문장
+    - intent_013~054: 각 6개 문장
 
-```bash
-pnpm install
-pnpm dev
+app/
+  ├── situation/page.tsx  # 상황 선택 페이지
+  ├── intent/page.tsx     # 의도 선택 페이지 (수정됨)
+  └── sentence/page.tsx   # 문장 표시 페이지
+
+app/api/
+  ├── situations/route.ts # 상황 목록 API
+  ├── intents/route.ts    # 의도 목록 API
+  ├── generate/route.ts   # 문장 생성 API
+  └── tts/route.ts        # TTS API
+
+lib/
+  ├── db.ts               # 데이터베이스/JSON 파일 핸들러 (수정됨)
+  ├── tts.ts              # Google Cloud TTS 클라이언트
+  ├── openai.ts           # Gemini API 클라이언트
+  └── i18n.ts             # 다국어 지원 유틸리티
 ```
 
-### 테스트 실행
+#### 6. 환경 변수 상태
+- ✅ `NEXT_PUBLIC_SUPABASE_URL`: 설정됨 (현재 사용 안 함)
+- ✅ `NEXT_PUBLIC_SUPABASE_ANON_KEY`: 설정됨 (현재 사용 안 함)
+- ⚠️ `GOOGLE_GEMINI_API_KEY`: 플레이스홀더 값 (`your-gemini-api-key`)
+- ⚠️ `GOOGLE_CLOUD_API_KEY`: 설정됨 (인증 문제 있음)
+- ✅ `GOOGLE_CLOUD_PROJECT_ID`: 설정됨
+- ✅ `GOOGLE_APPLICATION_CREDENTIALS`: 서비스 계정 키 파일 경로 설정됨
 
-```bash
-# Jest 테스트 실행
-pnpm test
+#### 7. 알려진 문제 및 해결 방법
+- **문제**: 의도 리스트가 표시되지 않음
+  - **원인**: Supabase 연결 시도로 빈 데이터 반환
+  - **해결**: `lib/db.ts`에서 Supabase 연결 비활성화
 
-# API 테스트 스크립트 실행 (서버 실행 후)
-# Windows PowerShell
-.\scripts\test-api.ps1
+- **문제**: "다시 생성하기" 버튼 클릭 시 화면 미업데이트
+  - **원인**: React 상태 변경 감지 실패
+  - **해결**: `setSentences([])`로 먼저 초기화, 새 배열 참조 생성
 
-# Linux/Mac
-chmod +x scripts/test-api.sh
-./scripts/test-api.sh
-```
+- **문제**: Gemini API 호출 실패
+  - **원인**: API 키 미설정
+  - **현재 상태**: 저장된 문장으로 폴백
 
-### 주요 파일 구조
+---
 
-- `/app`: Next.js App Router 페이지 및 API Routes
-- `/components`: React 컴포넌트
-- `/lib`: 유틸리티 및 비즈니스 로직
-  - `error-handler.ts`: 통합 에러 핸들링
-- `/types`: TypeScript 타입 정의
-- `/data`: 초기 데이터 JSON 파일
-- `/__tests__`: Jest 테스트 파일
-- `/scripts`: 테스트 스크립트
+## 이전 로그
 
-### 다음 단계
+### 2025-12-26 - TTS 마이그레이션 및 환경 설정
 
-1. ✅ 환경 변수 설정 및 데이터베이스 연동 (진행 중)
-2. ✅ 실제 API 호출 테스트 (테스트 코드 작성 완료)
-3. ✅ 에러 핸들링 개선 (완료)
-4. 테스트 실행 및 검증
-5. 프로덕션 빌드 및 배포
+#### 작성 시각
+2025-12-26 오전
+
+#### 해결하고자 한 문제
+1. OpenAI TTS에서 Google Cloud Text-to-Speech로 마이그레이션
+2. 한글 인코딩 깨짐 문제
+3. TTS 재생 실패 문제
+4. "다시 생성하기" 버튼 동작 문제
+
+#### 해결된 것
+1. ✅ **TTS 마이그레이션 완료**
+   - OpenAI TTS → Google Cloud Text-to-Speech
+   - REST API 기반 구현으로 변경
+   - 다국어 음성 지원 (ko-KR, en-US, ja-JP, zh-CN)
+
+2. ✅ **한글 인코딩 문제 해결**
+   - `data/intents.json`, `data/situations.json` 파일의 깨진 한글 수동 수정
+   - `.gitattributes` 파일 생성하여 UTF-8 인코딩 강제
+   - `app/layout.tsx`에 UTF-8 메타 태그 추가
+
+3. ✅ **TTS 재생 에러 핸들링 개선**
+   - 브라우저 자동재생 정책 관련 안내 추가
+   - API 에러 메시지 상세화
+
+4. ✅ **"다시 생성하기" 버튼 로직 개선**
+   - `forceGenerate: true` 플래그 추가
+   - 상태 초기화 및 재렌더링 강제
+
+#### 해결되지 않은 것
+1. ❌ **Google Cloud TTS 인증 문제**
+   - 서비스 계정 키 제공 후에도 여전히 "설정 필요" 오류
+   - 디버깅 필요
+
+2. ❌ **Gemini API 키 미설정**
+   - 새로운 문장 생성 불가능
+
+### 참고 문서
+- [TTS_MIGRATION.md](./TTS_MIGRATION.md) - TTS 마이그레이션 상세 가이드
+- [ENCODING_FIX.md](./ENCODING_FIX.md) - 인코딩 문제 해결 가이드
+- [CODE_REVIEW.md](./CODE_REVIEW.md) - 코드 리뷰 결과

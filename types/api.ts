@@ -19,11 +19,6 @@ export interface GenerateResponse {
   generatedAt: string;
 }
 
-export interface TTSResponse {
-  audioUrl: string;
-  duration: number;
-  cached: boolean;
-}
 
 export interface LogResponse {
   success: boolean;

@@ -14,7 +14,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
+      </head>
+      <body className="font-sans antialiased">
         {children}
         <Toaster position="top-center" />
       </body>
