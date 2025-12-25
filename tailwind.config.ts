@@ -28,6 +28,14 @@ const config: Config = {
           600: '#7c3aed',
           700: '#6d28d9',
         },
+        // Semie 스타일 색상
+        semie: {
+          cream: '#FBF8F3',      // 메인 배경색
+          beige: '#F5F1E8',      // 라이트 배경
+          coral: '#E8653B',      // 주 강조색
+          rose: '#E6B9B3',       // 부 강조색
+          dark: '#3A3A3A',       // 텍스트 어두운색
+        },
         secondary: '#10B981',
         accent: '#F59E0B',
         success: '#10b981',
