@@ -7,7 +7,7 @@
 출력은 반말로 할것. 이모티콘 쓰지말것
 
 
-Always follow the instructions in plan.md. When I say "go", find the next unmarked test in plan.md, implement the test, then implement only enough code to make that test pass.
+Always follow the instructions in claude.md. When I say "go", find the next unmarked test in claude.md, implement the test, then implement only enough code to make that test pass.
 
 # ROLE AND EXPERTISE
 

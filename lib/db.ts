@@ -127,15 +127,15 @@ export async function saveUsageLog(log: UsageLog): Promise<string> {
         timestamp: log.timestamp,
         user_agent: log.userAgent,
         device: log.device,
-      })
+      } as any)
       .select('id')
       .single();
     
     if (error) {
       throw new Error(`Failed to save log: ${error.message}`);
     }
-    
-    return data?.id?.toString() || `log_${Date.now()}`;
+
+    return (data as any)?.id?.toString() || `log_${Date.now()}`;
   }
   
   // Fallback: 콘솔 로그 (개발 환경)

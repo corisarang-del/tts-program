@@ -10,6 +10,8 @@ import { API_ENDPOINTS } from '@/lib/constants';
 import Header from '@/components/ui/Header';
 import Button from '@/components/ui/Button';
 import Loader from '@/components/ui/Loader';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
 import { getLocalizedSentences, getLocalizedText } from '@/lib/i18n';
 
 export default function IntentPage() {
@@ -84,49 +86,48 @@ export default function IntentPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <Header title={getLocalizedText(situation.name, language)} showBack backUrl="/situation" />
-      
-      <main className="container mx-auto px-4 py-8">
-        <div className="mb-6 text-center">
-          <p className="text-gray-600">어떤 의도인가요? <span className="font-semibold text-gray-900">{getLocalizedText(situation.name, language)}</span></p>
-        </div>
 
-        {loading ? (
-          <div className="flex justify-center items-center min-h-[400px]">
-            <Loader size="lg" />
+      <Section variant="subtle">
+        <Container>
+          <div className="mb-6 text-center">
+            <p className="text-neutral-600 dark:text-neutral-400">어떤 의도인가요? <span className="font-semibold text-neutral-900 dark:text-neutral-100">{getLocalizedText(situation.name, language)}</span></p>
           </div>
-        ) : error ? (
-          <div className="text-center py-16">
-            <p className="text-red-600 mb-4">{error}</p>
-            <button
-              onClick={fetchIntents}
-              className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90"
-            >
-              다시 시도
-            </button>
-          </div>
-        ) : (
-          <div className="max-w-2xl mx-auto space-y-4">
-            {intents.map((intent) => (
-              <Button
-                key={intent.id}
-                variant="primary"
-                size="lg"
-                className="w-full text-left justify-start"
-                onClick={() => handleIntentClick(intent)}
-                loading={generating}
-                disabled={generating}
-              >
-                <div>
-                  <div className="font-semibold">{getLocalizedText(intent.name, language)}</div>
-                  <div className="text-sm opacity-90">{getLocalizedText(intent.description, language)}</div>
-                </div>
+
+          {loading ? (
+            <div className="flex justify-center items-center min-h-[400px]">
+              <Loader size="lg" />
+            </div>
+          ) : error ? (
+            <div className="text-center py-16">
+              <p className="text-error dark:text-red-400 mb-4">{error}</p>
+              <Button onClick={fetchIntents} variant="primary">
+                다시 시도
               </Button>
-            ))}
-          </div>
-        )}
-      </main>
+            </div>
+          ) : (
+            <div className="max-w-2xl mx-auto space-y-4">
+              {intents.map((intent) => (
+                <Button
+                  key={intent.id}
+                  variant="primary"
+                  size="lg"
+                  className="w-full text-left justify-start"
+                  onClick={() => handleIntentClick(intent)}
+                  loading={generating}
+                  disabled={generating}
+                >
+                  <div>
+                    <div className="font-semibold">{getLocalizedText(intent.name, language)}</div>
+                    <div className="text-sm opacity-90">{getLocalizedText(intent.description, language)}</div>
+                  </div>
+                </Button>
+              ))}
+            </div>
+          )}
+        </Container>
+      </Section>
     </div>
   );
 }

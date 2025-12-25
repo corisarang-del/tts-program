@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     const duration = Math.ceil(text.length * 0.1);
 
-    return new NextResponse(audioBuffer, {
+    return new NextResponse(new Uint8Array(audioBuffer), {
       headers: {
         'Content-Type': 'audio/mpeg',
         'Content-Length': audioBuffer.length.toString(),

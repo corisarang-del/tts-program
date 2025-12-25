@@ -9,6 +9,8 @@ import { toast } from 'react-hot-toast';
 import Header from '@/components/ui/Header';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
 import { getLocalizedSentences } from '@/lib/i18n';
 
 export default function SentencePage() {
@@ -202,68 +204,72 @@ export default function SentencePage() {
 
   if (!sentences || sentences.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen">
         <Header title="생성된 문장" showBack backUrl="/intent" />
-        <main className="container mx-auto px-4 py-8">
-          <div className="text-center py-16">
-            <p className="text-gray-600 mb-4">생성된 문장이 없습니다.</p>
-            <Button onClick={() => router.push('/intent')} variant="primary">
-              의도 선택으로 돌아가기
-            </Button>
-          </div>
-        </main>
+        <Section variant="subtle">
+          <Container>
+            <div className="text-center py-16">
+              <p className="text-neutral-600 dark:text-neutral-400 mb-4">생성된 문장이 없습니다.</p>
+              <Button onClick={() => router.push('/intent')} variant="primary">
+                의도 선택으로 돌아가기
+              </Button>
+            </div>
+          </Container>
+        </Section>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <Header title="생성된 문장" showBack backUrl="/intent" />
-      
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-3xl mx-auto space-y-6">
-          {sentences.map((sentence, index) => (
-            <Card key={index} className="relative">
-              <p className="text-gray-900 mb-4 text-lg leading-relaxed">
-                {sentence}
-              </p>
-              <div className="flex gap-2">
-                <Button
-                  variant="secondary"
-                  size="sm"
-                  onClick={() => handleCopy(sentence)}
-                >
-                  복사
-                </Button>
-                <Button
-                  variant={playingIndex === index ? 'ghost' : 'primary'}
-                  size="sm"
-                  onClick={() => handleTTS(sentence, index)}
-                >
-                  {playingIndex === index ? '일시정지' : '🔊 듣기'}
-                </Button>
-              </div>
-            </Card>
-          ))}
-        </div>
 
-        <div className="max-w-3xl mx-auto mt-8 flex gap-4">
-          <Button
-            variant="ghost"
-            onClick={handleRegenerate}
-            loading={regenerating}
-          >
-            다시 생성
-          </Button>
-          <Button
-            variant="primary"
-            className="flex-1"
-            onClick={() => router.push('/result')}
-          >
-            다음
-          </Button>
-        </div>
-      </main>
+      <Section variant="subtle">
+        <Container>
+          <div className="space-y-6">
+            {sentences.map((sentence, index) => (
+              <Card key={index} className="relative">
+                <p className="text-neutral-900 dark:text-neutral-100 mb-4 text-lg leading-relaxed">
+                  {sentence}
+                </p>
+                <div className="flex gap-2">
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    onClick={() => handleCopy(sentence)}
+                  >
+                    복사
+                  </Button>
+                  <Button
+                    variant={playingIndex === index ? 'ghost' : 'primary'}
+                    size="sm"
+                    onClick={() => handleTTS(sentence, index)}
+                  >
+                    {playingIndex === index ? '일시정지' : '🔊 듣기'}
+                  </Button>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          <div className="mt-8 flex gap-4">
+            <Button
+              variant="ghost"
+              onClick={handleRegenerate}
+              loading={regenerating}
+            >
+              다시 생성
+            </Button>
+            <Button
+              variant="primary"
+              className="flex-1"
+              onClick={() => router.push('/result')}
+            >
+              다음
+            </Button>
+          </div>
+        </Container>
+      </Section>
     </div>
   );
 }

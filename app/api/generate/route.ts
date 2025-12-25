@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
         : 'ko';
     
     // forceGenerate가 true가 아니면 저장된 문장 우선 사용
-    const storedSentences = getLocalizedSentences(intent.sentences, normalizedLanguage);
+    const storedSentences = getLocalizedSentences(intent.sentences, normalizedLanguage as any);
     if (!forceGenerate && storedSentences && storedSentences.length > 0) {
       const response: GenerateResponse = {
         sentences: storedSentences.slice(0, 3),
@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     }
 
     // forceGenerate가 true이거나 저장된 문장이 없으면 AI로 생성
-    const sentences = await generateSentences(situation, intent, normalizedLanguage);
+    const sentences = await generateSentences(situation, intent, normalizedLanguage as any);
     
     const response: GenerateResponse = {
       sentences,
@@ -67,8 +67,10 @@ export async function POST(request: NextRequest) {
     if (
       error &&
       typeof error === 'object' &&
-      ('status' in error && error.status === 429) ||
-      ('message' in error && typeof error.message === 'string' && error.message.includes('rate limit'))
+      (
+        ('status' in error && (error as any).status === 429) ||
+        ('message' in error && typeof (error as any).message === 'string' && (error as any).message.includes('rate limit'))
+      )
     ) {
       return createErrorResponse(
         new AppError(

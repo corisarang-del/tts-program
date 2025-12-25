@@ -8,6 +8,8 @@ import { getSessionId, detectDevice } from '@/lib/logger';
 import { toast } from 'react-hot-toast';
 import Header from '@/components/ui/Header';
 import Button from '@/components/ui/Button';
+import Section from '@/components/ui/Section';
+import Container from '@/components/ui/Container';
 
 export default function ResultPage() {
   const router = useRouter();
@@ -54,13 +56,13 @@ export default function ResultPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen">
       <Header title="도움이 되셨나요?" />
-      
-      <main className="container mx-auto px-4 py-16">
-        <div className="max-w-2xl mx-auto">
+
+      <Section variant="subtle">
+        <Container>
           <div className="text-center mb-12">
-            <p className="text-xl text-gray-600 mb-8">
+            <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8">
               생성된 문장이 도움이 되었는지 평가해주세요
             </p>
           </div>
@@ -76,7 +78,7 @@ export default function ResultPage() {
             >
               해결됨 😊
             </Button>
-            
+
             <Button
               variant="secondary"
               size="lg"
@@ -87,7 +89,7 @@ export default function ResultPage() {
             >
               보통 😐
             </Button>
-            
+
             <Button
               variant="ghost"
               size="lg"
@@ -103,14 +105,14 @@ export default function ResultPage() {
           <div className="text-center">
             <button
               onClick={handleSkip}
-              className="text-gray-500 hover:text-gray-700 underline"
+              className="text-neutral-500 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 underline"
               disabled={submitting}
             >
               건너뛰기
             </button>
           </div>
-        </div>
-      </main>
+        </Container>
+      </Section>
     </div>
   );
 }

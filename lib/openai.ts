@@ -115,13 +115,13 @@ Return ONLY a JSON array of strings, for example: ["sentence1", "sentence2", "se
     } catch {
       const lines = content
         .split('\n')
-        .map(line => {
+        .map((line: string) => {
           let cleaned = line.trim().replace(/^["']|["']$/g, '');
           cleaned = cleaned.replace(/^[-*?\s]*/, '');
           cleaned = cleaned.replace(/^\d+[.)]\s*/, '');
           return cleaned.trim();
         })
-        .filter(line => line.length > 0 && !line.match(/^[\[\]{}",:]+$/));
+        .filter((line: string) => line.length > 0 && !line.match(/^[\[\]{}",:]+$/));
 
       if (lines.length > 0) {
         return lines.slice(0, 3);
