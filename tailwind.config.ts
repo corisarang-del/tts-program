@@ -36,6 +36,14 @@ const config: Config = {
           rose: '#E6B9B3',       // 부 강조색
           dark: '#3A3A3A',       // 텍스트 어두운색
         },
+        // Brand 컬러 (랜딩 페이지용)
+        brand: {
+          bg: '#FFF9F5',
+          primary: '#E66E45',
+          primaryHover: '#D95C33',
+          text: '#333333',
+          subtext: '#666666',
+        },
         secondary: '#10B981',
         accent: '#F59E0B',
         success: '#10b981',

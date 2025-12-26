@@ -24,13 +24,13 @@ export default function Header({ title, showBack = false, backUrl }: HeaderProps
   };
   
   return (
-    <header className="w-full border-b border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800">
-      <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-brand-bg/80 backdrop-blur-md border-b border-orange-100/50">
+      <div className="container mx-auto px-6 h-16 flex items-center justify-between">
         <div className="flex items-center gap-4">
           {showBack && (
             <button
               onClick={handleBack}
-              className="text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-neutral-100 transition-colors"
+              className="text-brand-text hover:text-brand-primary transition-colors"
               aria-label="뒤로가기"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -38,15 +38,16 @@ export default function Header({ title, showBack = false, backUrl }: HeaderProps
               </svg>
             </button>
           )}
-          {title && (
-            <h1 className="text-xl font-bold text-neutral-900 dark:text-neutral-100">{title}</h1>
+          <Link href="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-brand-primary rounded-lg flex items-center justify-center text-white font-bold">Q</div>
+            <span className="font-bold text-xl tracking-tight text-brand-text">QuickTalk</span>
+          </Link>
+          {title && !showBack && (
+            <h1 className="text-xl font-bold text-brand-text ml-4">{title}</h1>
           )}
         </div>
-        <Link href="/" className="text-primary-600 dark:text-primary-400 font-bold text-lg">
-          QuickTalk
-        </Link>
         <select
-          className="ml-4 rounded-md border border-neutral-200 dark:border-neutral-700 bg-white dark:bg-neutral-800 px-2 py-1 text-sm text-neutral-700 dark:text-neutral-300"
+          className="rounded-md border border-orange-200 bg-white/50 backdrop-blur px-3 py-1.5 text-sm text-brand-text font-medium hover:border-brand-primary transition-colors"
           value={language}
           onChange={(event) => setLanguage(event.target.value as typeof language)}
           aria-label="Language"
@@ -58,6 +59,6 @@ export default function Header({ title, showBack = false, backUrl }: HeaderProps
           ))}
         </select>
       </div>
-    </header>
+    </nav>
   );
 }

@@ -13,8 +13,10 @@ IMPORTANT RULES:
 - Each sentence must be complete, natural, and immediately usable
 - Sentences should sound like real human conversation, not formal templates
 - Keep sentences concise (1-2 lines maximum)
-- Provide exactly 3 different variations
-- Return ONLY a JSON array of strings, nothing else`;
+- Provide at least 2 and up to 3 different variations
+- Each sentence must be a complete, meaningful statement
+- Return ONLY a JSON array of strings, nothing else
+- Ensure all sentences are properly formatted and grammatically correct`;
 
 const LANGUAGE_NAMES: Record<Locale, string> = {
   ko: 'Korean',
@@ -42,7 +44,7 @@ Goal: ${intentDescription}
 Language: ${languageName}
 
 TASK:
-Generate 3 realistic ${languageName} sentences that someone would actually say in this exact situation to achieve this intent.
+Generate at least 2 realistic ${languageName} sentences (preferably 3) that someone would actually say in this exact situation to achieve this intent.
 
 REQUIREMENTS:
 - Each sentence must be complete and ready to use in a real conversation
@@ -50,9 +52,11 @@ REQUIREMENTS:
 - Make each variation distinct (different wording, tone, or approach)
 - Sentences should fit the specific context and cultural norms of ${languageName}
 - Keep each sentence concise and clear (1-2 lines maximum)
+- Ensure each sentence is grammatically correct and makes sense
+- Do not include incomplete sentences or fragments
 
 OUTPUT FORMAT:
-Return ONLY a JSON array with exactly 3 strings: ["sentence1", "sentence2", "sentence3"]`;
+Return ONLY a JSON array with at least 2 strings (preferably 3): ["sentence1", "sentence2", "sentence3"]`;
 
   try {
     // 환경 변수 확인 및 에러 처리 개선
@@ -83,8 +87,9 @@ Return ONLY a JSON array with exactly 3 strings: ["sentence1", "sentence2", "sen
             },
           ],
           generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 512,
+            temperature: 0.8,
+            maxOutputTokens: 1024,
+            topP: 0.95,
           },
         }),
       }
@@ -121,17 +126,43 @@ Return ONLY a JSON array with exactly 3 strings: ["sentence1", "sentence2", "sen
       if (jsonMatch) {
         const sentences = JSON.parse(jsonMatch[0]);
         if (Array.isArray(sentences) && sentences.length > 0) {
-          return sentences
-            .slice(0, 3)
-            .filter((s: unknown) => typeof s === 'string' && s.length > 0);
+          const validSentences = sentences
+            .filter((s: unknown) => typeof s === 'string' && s.trim().length > 0)
+            .map((s: string) => s.trim())
+            .filter((s: string) => {
+              // 최소 5자 이상이고, 불완전한 문장 제외
+              if (s.length < 5) return false;
+              // 불완전한 문장 패턴 제외 (예: "이거 사이즈" 같은 경우)
+              if (s.match(/^["'\[\(]/) && !s.match(/[\.!?\)\]"']$/)) return false;
+              // 너무 짧거나 의미없는 문장 제외
+              if (s.split(/\s+/).length < 2 && s.length < 10) return false;
+              return true;
+            });
+          
+          if (validSentences.length >= 2) {
+            return validSentences.slice(0, 3);
+          }
         }
       }
 
       const sentences = JSON.parse(cleanedContent);
       if (Array.isArray(sentences) && sentences.length > 0) {
-        return sentences
-          .slice(0, 3)
-          .filter((s: unknown) => typeof s === 'string' && s.length > 0);
+        const validSentences = sentences
+          .filter((s: unknown) => typeof s === 'string' && s.trim().length > 0)
+          .map((s: string) => s.trim())
+          .filter((s: string) => {
+            // 최소 5자 이상이고, 불완전한 문장 제외
+            if (s.length < 5) return false;
+            // 불완전한 문장 패턴 제외 (예: "이거 사이즈" 같은 경우)
+            if (s.match(/^["'\[\(]/) && !s.match(/[\.!?\)\]"']$/)) return false;
+            // 너무 짧거나 의미없는 문장 제외
+            if (s.split(/\s+/).length < 2 && s.length < 10) return false;
+            return true;
+          });
+        
+        if (validSentences.length >= 2) {
+          return validSentences.slice(0, 3);
+        }
       }
     } catch {
       const lines = content
@@ -142,14 +173,25 @@ Return ONLY a JSON array with exactly 3 strings: ["sentence1", "sentence2", "sen
           cleaned = cleaned.replace(/^\d+[.)]\s*/, '');
           return cleaned.trim();
         })
-        .filter((line: string) => line.length > 0 && !line.match(/^[\[\]{}",:]+$/));
+        .filter((line: string) => {
+          // 최소 5자 이상
+          if (line.length < 5) return false;
+          // JSON 구분자만 있는 경우 제외
+          if (line.match(/^[\[\]{}",:]+$/)) return false;
+          // 불완전한 문장 패턴 제외
+          if (line.match(/^["'\[\(]/) && !line.match(/[\.!?\)\]"']$/)) return false;
+          // 너무 짧거나 의미없는 문장 제외
+          if (line.split(/\s+/).length < 2 && line.length < 10) return false;
+          return true;
+        });
 
-      if (lines.length > 0) {
+      if (lines.length >= 2) {
         return lines.slice(0, 3);
       }
     }
 
-    throw new Error('Failed to parse sentences from response');
+    // 최소 2개를 보장하지 못한 경우 에러
+    throw new Error('Failed to generate at least 2 valid sentences from response');
   } catch (error) {
     console.error('[Gemini Error]', error);
     throw error;

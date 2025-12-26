@@ -52,10 +52,26 @@ export async function POST(request: NextRequest) {
     }
 
     // forceGenerate가 true이거나 저장된 문장이 없으면 AI로 생성
-    const sentences = await generateSentences(situation, intent, normalizedLanguage as any);
+    let sentences = await generateSentences(situation, intent, normalizedLanguage as any);
+    
+    // 최소 2개 보장
+    if (!Array.isArray(sentences) || sentences.length < 2) {
+      // 재시도 로직
+      console.warn(`[Generate] Only ${sentences?.length || 0} sentences generated, retrying...`);
+      sentences = await generateSentences(situation, intent, normalizedLanguage as any);
+      
+      // 여전히 2개 미만이면 에러
+      if (!Array.isArray(sentences) || sentences.length < 2) {
+        throw new AppError(
+          500,
+          'INSUFFICIENT_SENTENCES',
+          '문장 생성에 실패했습니다. 최소 2개의 문장을 생성할 수 없습니다.'
+        );
+      }
+    }
     
     const response: GenerateResponse = {
-      sentences,
+      sentences: sentences.slice(0, 3), // 최대 3개까지만
       generatedAt: new Date().toISOString(),
     };
     

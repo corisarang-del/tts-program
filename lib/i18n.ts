@@ -9,7 +9,7 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   zh: '中文',
 };
 
-type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent' | 'whichIntention' | 'retry' | 'whichSituation' | 'wasItHelpful' | 'rateHelpfulness' | 'solved' | 'okay' | 'notHelpful' | 'skip' | 'usageComplete' | 'usageCompleted' | 'tryAnotherSituation' | 'goToHome' | 'homeMainTitle' | 'homeStartButton' | 'homeFeatureMinimalClicks' | 'homeFeatureInstantResults' | 'homeFeatureVoiceSupport' | 'feedbackMessage' | 'reuseMessage';
+type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent' | 'whichIntention' | 'retry' | 'whichSituation' | 'wasItHelpful' | 'rateHelpfulness' | 'solved' | 'okay' | 'notHelpful' | 'skip' | 'usageComplete' | 'usageCompleted' | 'tryAnotherSituation' | 'goToHome' | 'homeMainTitle' | 'homeStartButton' | 'homeFeatureMinimalClicks' | 'homeFeatureInstantResults' | 'homeFeatureVoiceSupport' | 'feedbackMessage' | 'reuseMessage' | 'landingHeroTag' | 'landingHeroTitlePart1' | 'landingHeroTitlePart2' | 'landingHeroDescription' | 'landingInteractivePreview' | 'landingFeaturesTag' | 'landingFeaturesTitle' | 'landingFeaturesSubtitle' | 'landingFeatureMinimalClicksTitle' | 'landingFeatureMinimalClicksDesc' | 'landingFeatureInstantResultsTitle' | 'landingFeatureInstantResultsDesc' | 'landingFeatureVoiceSupportTitle' | 'landingFeatureVoiceSupportDesc' | 'landingHowToTag' | 'landingHowToTitle' | 'landingHowToSubtitle' | 'landingHowToStep1Title' | 'landingHowToStep1Desc' | 'landingHowToStep2Title' | 'landingHowToStep2Desc' | 'landingHowToStep3Title' | 'landingHowToStep3Desc' | 'landingSocialProofTitle' | 'landingSocialProofDesc' | 'landingCtaTitle' | 'landingCtaSubtitle' | 'landingCtaButton' | 'landingCtaDisclaimer';
 
 const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
   copy: {
@@ -185,6 +185,180 @@ const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
     en: 'Feel free to use it again whenever you need it',
     ja: '次回も必要であればいつでもまたご利用ください',
     zh: '如果下次需要，随时可以再次使用',
+  },
+  landingHeroTag: {
+    ko: '🎯 상황맞춤 문장 생성',
+    en: '🎯 Context-based Sentence Generation',
+    ja: '🎯 状況に合わせた文章生成',
+    zh: '🎯 情境定制句子生成',
+  },
+  landingHeroTitlePart1: {
+    ko: '상황만 선택하면',
+    en: 'Just select a situation',
+    ja: '状況を選ぶだけで',
+    zh: '只需选择情况',
+  },
+  landingHeroTitlePart2: {
+    ko: '바로 쓸 수 있는 문장',
+    en: 'and get ready-to-use sentences',
+    ja: 'すぐに使える文章',
+    zh: '即可使用的句子',
+  },
+  landingHeroDescription: {
+    ko: '어색한 상황에서 말이 막힐 때 주저하지 말고 QuickTalk을 사용해보세요. 준비된 문장으로 자신있게 말해보세요.',
+    en: 'When words fail you in awkward situations, don\'t hesitate to use QuickTalk. Speak confidently with prepared sentences.',
+    ja: '気まずい状況で言葉に詰まった時、ためらわずにQuickTalkを使ってみてください。準備された文章で自信を持って話しましょう。',
+    zh: '在尴尬的情况下说不出话时，不要犹豫，使用QuickTalk。用准备好的句子自信地说话。',
+  },
+  landingInteractivePreview: {
+    ko: 'Interactive Preview',
+    en: 'Interactive Preview',
+    ja: 'インタラクティブプレビュー',
+    zh: '交互式预览',
+  },
+  landingFeaturesTag: {
+    ko: '주요 특징',
+    en: 'Key Features',
+    ja: '主な特徴',
+    zh: '主要特点',
+  },
+  landingFeaturesTitle: {
+    ko: 'QuickTalk의 강점',
+    en: 'QuickTalk\'s Strengths',
+    ja: 'QuickTalkの強み',
+    zh: 'QuickTalk的优势',
+  },
+  landingFeaturesSubtitle: {
+    ko: '최대한 간단하고, 빠르고, 자연스러운 경험입니다.',
+    en: 'The simplest, fastest, and most natural experience.',
+    ja: 'できるだけシンプルで、速く、自然な体験です。',
+    zh: '最简单、最快、最自然的体验。',
+  },
+  landingFeatureMinimalClicksTitle: {
+    ko: '최소 클릭',
+    en: 'Minimal Clicks',
+    ja: '最小限のクリック',
+    zh: '最少点击',
+  },
+  landingFeatureMinimalClicksDesc: {
+    ko: '2~3번의 선택만으로 생성된 문장을 바로 써보세요',
+    en: 'Use generated sentences right away with just 2-3 selections',
+    ja: '2〜3回の選択だけで生成された文章をすぐに使ってみてください',
+    zh: '只需2-3次选择即可使用生成的句子',
+  },
+  landingFeatureInstantResultsTitle: {
+    ko: '즉시 제공',
+    en: 'Instant Results',
+    ja: '即座に提供',
+    zh: '即时提供',
+  },
+  landingFeatureInstantResultsDesc: {
+    ko: '선택하는 순간 결과가 나옵니다. 기다릴 필요가 없습니다.',
+    en: 'Results appear the moment you select. No waiting required.',
+    ja: '選択した瞬間に結果が出ます。待つ必要はありません。',
+    zh: '选择时立即显示结果。无需等待。',
+  },
+  landingFeatureVoiceSupportTitle: {
+    ko: '음성 지원',
+    en: 'Voice Support',
+    ja: '音声サポート',
+    zh: '语音支持',
+  },
+  landingFeatureVoiceSupportDesc: {
+    ko: 'TTS로 들으면서 다양한 발음을 확인할 수 있습니다.',
+    en: 'Listen with TTS and check various pronunciations.',
+    ja: 'TTSで聞きながら様々な発音を確認できます。',
+    zh: '可以通过TTS听取并确认各种发音。',
+  },
+  landingHowToTag: {
+    ko: '단 3단계 사용법',
+    en: 'Just 3 Simple Steps',
+    ja: 'わずか3ステップの使い方',
+    zh: '只需3个简单步骤',
+  },
+  landingHowToTitle: {
+    ko: '너무 간단하니?',
+    en: 'Too Simple?',
+    ja: '簡単すぎますか？',
+    zh: '太简单了？',
+  },
+  landingHowToSubtitle: {
+    ko: '복잡한 절차는 없습니다. 3번의 클릭만으로 완벽한 문장을 만들 수 있습니다.',
+    en: 'No complicated procedures. Create perfect sentences with just 3 clicks.',
+    ja: '複雑な手順はありません。3回のクリックだけで完璧な文章を作成できます。',
+    zh: '没有复杂的程序。只需3次点击即可创建完美的句子。',
+  },
+  landingHowToStep1Title: {
+    ko: '상황 선택',
+    en: 'Select Situation',
+    ja: '状況選択',
+    zh: '选择情况',
+  },
+  landingHowToStep1Desc: {
+    ko: '지금 처한 상황을 선택하세요',
+    en: 'Select your current situation',
+    ja: '今の状況を選択してください',
+    zh: '选择您当前的情况',
+  },
+  landingHowToStep2Title: {
+    ko: '의도 선택',
+    en: 'Select Intent',
+    ja: '意図選択',
+    zh: '选择意图',
+  },
+  landingHowToStep2Desc: {
+    ko: '어떤 의도로 말할지 선택하세요',
+    en: 'Select what you want to say',
+    ja: '何を言いたいか選択してください',
+    zh: '选择您想说的话',
+  },
+  landingHowToStep3Title: {
+    ko: '문장 사용',
+    en: 'Use Sentence',
+    ja: '文章使用',
+    zh: '使用句子',
+  },
+  landingHowToStep3Desc: {
+    ko: '생성된 문장을 복사하거나 듣기',
+    en: 'Copy or listen to the generated sentence',
+    ja: '生成された文章をコピーまたは聞く',
+    zh: '复制或听取生成的句子',
+  },
+  landingSocialProofTitle: {
+    ko: '많은 사람들이 사용 중입니다',
+    en: 'Many People Are Using It',
+    ja: '多くの人が使用中です',
+    zh: '许多人正在使用',
+  },
+  landingSocialProofDesc: {
+    ko: '어색한 상황에서도 자신있게 말할 수 있도록 준비된 문장을 제공합니다. 지금 바로 시작해보세요!',
+    en: 'We provide prepared sentences so you can speak confidently even in awkward situations. Start now!',
+    ja: '気まずい状況でも自信を持って話せるよう、準備された文章を提供します。今すぐ始めてみてください！',
+    zh: '我们提供准备好的句子，让您即使在尴尬的情况下也能自信地说话。立即开始！',
+  },
+  landingCtaTitle: {
+    ko: '준비되셨나요?',
+    en: 'Ready?',
+    ja: '準備はできましたか？',
+    zh: '准备好了吗？',
+  },
+  landingCtaSubtitle: {
+    ko: '지금 바로 시작해서 자신있게 말해보세요.',
+    en: 'Start now and speak confidently.',
+    ja: '今すぐ始めて自信を持って話してみてください。',
+    zh: '立即开始，自信地说话。',
+  },
+  landingCtaButton: {
+    ko: 'QuickTalk 시작하기 ✨',
+    en: 'Start QuickTalk ✨',
+    ja: 'QuickTalkを始める ✨',
+    zh: '开始QuickTalk ✨',
+  },
+  landingCtaDisclaimer: {
+    ko: '가입이나 로그인이 필요 없습니다. 바로 시작하세요!',
+    en: 'No sign-up or login required. Start right away!',
+    ja: '登録やログインは不要です。すぐに始められます！',
+    zh: '无需注册或登录。立即开始！',
   },
 };
 
