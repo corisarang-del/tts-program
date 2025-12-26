@@ -1,12 +1,17 @@
 name: Deploy to Vercel
 
+# Vercel 배포는 비활성화됨 - GitHub Pages만 사용
+# 필요시 주석을 해제하고 VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID를 설정하세요
+
+# on:
+#   push:
+#     branches: [main]
+#   workflow_run:
+#     workflows: [PR Check]
+#     types: [completed]
+#     branches: [main]
 on:
-  push:
-    branches: [main]
-  workflow_run:
-    workflows: [PR Check]
-    types: [completed]
-    branches: [main]
+  workflow_dispatch: # 수동 실행만 가능
 
 jobs:
   deploy:
@@ -41,7 +46,7 @@ jobs:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          vercel-args: '--prod'
+          vercel-args: "--prod"
         env:
           NEXT_PUBLIC_API_BASE_URL: ${{ secrets.NEXT_PUBLIC_API_BASE_URL }}
           GOOGLE_API_KEY: ${{ secrets.GOOGLE_API_KEY }}
