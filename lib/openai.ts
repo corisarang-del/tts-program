@@ -62,13 +62,14 @@ Return ONLY a JSON array with at least 2 strings (preferably 3): ["sentence1", "
     // 환경 변수 확인 및 에러 처리 개선
     let apiKey: string;
     try {
-      apiKey = requireEnv('GOOGLE_GEMINI_API_KEY');
+      // GOOGLE_API_KEY 또는 GOOGLE_GEMINI_API_KEY 사용
+      apiKey = process.env.GOOGLE_API_KEY || requireEnv('GOOGLE_GEMINI_API_KEY');
     } catch (envError) {
       console.error('[Gemini] Environment variable error:', envError);
       throw new AppError(
         500,
         'GEMINI_API_KEY_NOT_SET',
-        'Google Gemini API 키가 설정되지 않았습니다. GOOGLE_GEMINI_API_KEY 환경 변수를 확인해주세요.'
+        'Google Gemini API 키가 설정되지 않았습니다. GOOGLE_API_KEY 또는 GOOGLE_GEMINI_API_KEY 환경 변수를 확인해주세요.'
       );
     }
     const response = await fetch(
