@@ -9,6 +9,11 @@ import { useAppStore } from '@/lib/store';
 
 jest.mock('@/lib/store');
 jest.mock('next/navigation');
+jest.mock('@/components/landing/Features', () => {
+  return function MockFeatures() {
+    return <div data-testid="mock-features">Features Component</div>;
+  };
+});
 
 describe('Home Page - Multilingual UI Support', () => {
   beforeEach(() => {
