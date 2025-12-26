@@ -35,6 +35,8 @@ credentials/
 !package-lock.json
 !tsconfig.json
 !tsconfig.*.json
+!.claude/settings.json
+!.claude/commands/*.md
 
 # vercel
 .vercel

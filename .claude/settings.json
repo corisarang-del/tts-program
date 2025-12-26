@@ -1,0 +1,19 @@
+{
+  "commands": [
+    {
+      "name": "history",
+      "description": "프로젝트 작업 이력 표시",
+      "type": "markdown",
+      "path": ".claude/commands/history.md",
+      "triggers": ["/history"]
+    }
+  ],
+  "codeReview": {
+    "enabled": true,
+    "strictMode": true
+  },
+  "tdd": {
+    "enabled": true,
+    "framework": "jest"
+  }
+}
