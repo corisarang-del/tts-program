@@ -11,7 +11,7 @@ import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
-import { getLocalizedSentences } from '@/lib/i18n';
+import { getLocalizedSentences, getUIText } from '@/lib/i18n';
 
 export default function SentencePage() {
   const router = useRouter();
@@ -25,10 +25,10 @@ export default function SentencePage() {
   const handleCopy = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success('복사되었습니다');
+      toast.success(language === 'ko' ? '복사되었습니다' : language === 'en' ? 'Copied' : language === 'ja' ? 'コピーされました' : '已复制');
     } catch (err) {
       console.error('Failed to copy:', err);
-      toast.error('복사에 실패했습니다');
+      toast.error(language === 'ko' ? '복사에 실패했습니다' : language === 'en' ? 'Failed to copy' : language === 'ja' ? 'コピーに失敗しました' : '复制失败');
     }
   };
 
@@ -215,13 +215,13 @@ export default function SentencePage() {
   if (!sentences || sentences.length === 0) {
     return (
       <div className="min-h-screen">
-        <Header title="생성된 문장" showBack backUrl="/intent" />
+        <Header title={getUIText('generatedSentences', language)} showBack backUrl="/intent" />
         <Section variant="subtle">
           <Container>
             <div className="text-center py-16">
-              <p className="text-neutral-600 dark:text-neutral-400 mb-4">생성된 문장이 없습니다.</p>
+              <p className="text-neutral-600 dark:text-neutral-400 mb-4">{getUIText('noSentences', language)}</p>
               <Button onClick={() => router.push('/intent')} variant="primary">
-                의도 선택으로 돌아가기
+                {getUIText('backToIntent', language)}
               </Button>
             </div>
           </Container>
@@ -232,7 +232,7 @@ export default function SentencePage() {
 
   return (
     <div className="min-h-screen">
-      <Header title="생성된 문장" showBack backUrl="/intent" />
+      <Header title={getUIText('generatedSentences', language)} showBack backUrl="/intent" />
 
       <Section variant="subtle">
         <Container>
@@ -248,14 +248,14 @@ export default function SentencePage() {
                     size="sm"
                     onClick={() => handleCopy(sentence)}
                   >
-                    복사
+                    {getUIText('copy', language)}
                   </Button>
                   <Button
                     variant={playingIndex === index ? 'ghost' : 'primary'}
                     size="sm"
                     onClick={() => handleTTS(sentence, index)}
                   >
-                    {playingIndex === index ? '일시정지' : '🔊 듣기'}
+                    {playingIndex === index ? getUIText('pause', language) : getUIText('play', language)}
                   </Button>
                 </div>
               </Card>
@@ -268,14 +268,14 @@ export default function SentencePage() {
               onClick={handleRegenerate}
               loading={regenerating}
             >
-              다시 생성
+              {getUIText('regenerate', language)}
             </Button>
             <Button
               variant="primary"
               className="flex-1"
               onClick={() => router.push('/result')}
             >
-              다음
+              {getUIText('next', language)}
             </Button>
           </div>
         </Container>
