@@ -9,7 +9,7 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   zh: '中文',
 };
 
-type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent';
+type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent' | 'whichIntention' | 'retry';
 
 const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
   copy: {
@@ -65,6 +65,18 @@ const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
     en: 'Back to Intent Selection',
     ja: '意図選択に戻る',
     zh: '返回意图选择',
+  },
+  whichIntention: {
+    ko: '어떤 의도인가요?',
+    en: 'What is your intention?',
+    ja: 'どの意図ですか?',
+    zh: '你的意图是什么?',
+  },
+  retry: {
+    ko: '다시 시도',
+    en: 'Retry',
+    ja: '再試行',
+    zh: '重试',
   },
 };
 

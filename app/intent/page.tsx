@@ -12,7 +12,7 @@ import Button from '@/components/ui/Button';
 import Loader from '@/components/ui/Loader';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
-import { getLocalizedSentences, getLocalizedText } from '@/lib/i18n';
+import { getLocalizedSentences, getLocalizedText, getUIText } from '@/lib/i18n';
 
 export default function IntentPage() {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function IntentPage() {
       setError(null);
     } catch (err) {
       console.error('Failed to fetch intents:', err);
-      setError('의도 목록을 불러올 수 없습니다.');
+      setError(language === 'ko' ? '의도 목록을 불러올 수 없습니다.' : language === 'en' ? 'Failed to load intentions.' : language === 'ja' ? '意図を読み込めませんでした。' : '无法加载意图。');
     } finally {
       setLoading(false);
     }
@@ -75,7 +75,7 @@ export default function IntentPage() {
       router.push('/sentence');
     } catch (err) {
       console.error('Failed to generate sentences:', err);
-      setError('문장 생성에 실패했습니다.');
+      setError(language === 'ko' ? '문장 생성에 실패했습니다.' : language === 'en' ? 'Failed to generate sentences.' : language === 'ja' ? '文の生成に失敗しました。' : '生成句子失败。');
     } finally {
       setGenerating(false);
     }
@@ -92,7 +92,7 @@ export default function IntentPage() {
       <Section variant="subtle">
         <Container>
           <div className="mb-6 text-center">
-            <p className="text-neutral-600 dark:text-neutral-400">어떤 의도인가요? <span className="font-semibold text-neutral-900 dark:text-neutral-100">{getLocalizedText(situation.name, language)}</span></p>
+            <p className="text-neutral-600 dark:text-neutral-400">{getUIText('whichIntention', language)} <span className="font-semibold text-neutral-900 dark:text-neutral-100">{getLocalizedText(situation.name, language)}</span></p>
           </div>
 
           {loading ? (
@@ -103,7 +103,7 @@ export default function IntentPage() {
             <div className="text-center py-16">
               <p className="text-error dark:text-red-400 mb-4">{error}</p>
               <Button onClick={fetchIntents} variant="primary">
-                다시 시도
+                {getUIText('retry', language)}
               </Button>
             </div>
           ) : (
