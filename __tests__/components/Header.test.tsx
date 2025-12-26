@@ -24,22 +24,22 @@ describe('Header Component - Design System', () => {
   });
 
   describe('Base Styling', () => {
-    it('should have correct header styles', () => {
+    it('should have correct nav styles', () => {
       const { container } = render(<Header />);
-      const header = container.querySelector('header');
+      const nav = container.querySelector('nav');
 
-      expect(header?.className).toContain('w-full');
-      expect(header?.className).toContain('border-b');
-      expect(header?.className).toContain('border-neutral-200');
-      expect(header?.className).toContain('bg-white');
+      expect(nav?.className).toContain('fixed');
+      expect(nav?.className).toContain('border-b');
+      expect(nav?.className).toContain('z-50');
+      expect(nav?.className).toContain('backdrop-blur-md');
     });
 
-    it('should support dark mode', () => {
+    it('should have proper colors', () => {
       const { container } = render(<Header />);
-      const header = container.querySelector('header');
+      const nav = container.querySelector('nav');
 
-      expect(header?.className).toContain('dark:bg-neutral-800');
-      expect(header?.className).toContain('dark:border-neutral-700');
+      expect(nav?.className).toContain('bg-brand-bg');
+      expect(nav?.className).toContain('border-orange-100');
     });
 
     it('should have proper padding and layout', () => {
@@ -47,8 +47,8 @@ describe('Header Component - Design System', () => {
       const div = container.querySelector('[class*="container"]');
 
       expect(div?.className).toContain('mx-auto');
-      expect(div?.className).toContain('px-4');
-      expect(div?.className).toContain('py-4');
+      expect(div?.className).toContain('px-6');
+      expect(div?.className).toContain('h-16');
       expect(div?.className).toContain('flex');
       expect(div?.className).toContain('items-center');
     });
@@ -69,12 +69,12 @@ describe('Header Component - Design System', () => {
       expect(button).not.toBeInTheDocument();
     });
 
-    it('back button should use new neutral colors', () => {
+    it('back button should use brand colors', () => {
       const { container } = render(<Header showBack={true} />);
       const button = container.querySelector('button');
 
-      expect(button?.className).toContain('text-neutral-600');
-      expect(button?.className).toContain('hover:text-neutral-900');
+      expect(button?.className).toContain('text-brand-text');
+      expect(button?.className).toContain('hover:text-brand-primary');
     });
 
     it('should navigate using backUrl when provided', () => {
@@ -102,12 +102,13 @@ describe('Header Component - Design System', () => {
       expect(h1).not.toBeInTheDocument();
     });
 
-    it('title should use new neutral colors', () => {
+    it('title should use brand colors', () => {
       const { container } = render(<Header title="Test" />);
       const h1 = container.querySelector('h1');
 
-      expect(h1?.className).toContain('text-neutral-900');
-      expect(h1?.className).toContain('dark:text-neutral-100');
+      expect(h1?.className).toContain('text-brand-text');
+      expect(h1?.className).toContain('font-bold');
+      expect(h1?.className).toContain('text-xl');
     });
   });
 
@@ -120,12 +121,13 @@ describe('Header Component - Design System', () => {
       expect(link.closest('a')).toHaveAttribute('href', '/');
     });
 
-    it('logo should use new primary color', () => {
+    it('logo link should have flex layout', () => {
       const { container } = render(<Header />);
       const link = container.querySelector('a[href="/"]');
 
-      expect(link?.className).toContain('text-primary-600');
-      expect(link?.className).toContain('dark:text-primary-400');
+      expect(link?.className).toContain('flex');
+      expect(link?.className).toContain('items-center');
+      expect(link?.className).toContain('gap-2');
     });
   });
 
@@ -137,21 +139,22 @@ describe('Header Component - Design System', () => {
       expect(select).toBeInTheDocument();
     });
 
-    it('select should use new neutral border color', () => {
+    it('select should have proper styles', () => {
       const { container } = render(<Header />);
       const select = container.querySelector('select');
 
-      expect(select?.className).toContain('border-neutral-200');
+      expect(select?.className).toContain('border-orange-200');
       expect(select?.className).toContain('rounded-md');
       expect(select?.className).toContain('bg-white');
+      expect(select?.className).toContain('backdrop-blur');
     });
 
-    it('should support dark mode in select', () => {
+    it('select should have hover effects', () => {
       const { container } = render(<Header />);
       const select = container.querySelector('select');
 
-      expect(select?.className).toContain('dark:bg-neutral-800');
-      expect(select?.className).toContain('dark:border-neutral-700');
+      expect(select?.className).toContain('hover:border-brand-primary');
+      expect(select?.className).toContain('transition-colors');
     });
   });
 

@@ -8,6 +8,7 @@ import Home from '@/app/page';
 import { useAppStore } from '@/lib/store';
 
 jest.mock('@/lib/store');
+jest.mock('next/navigation');
 
 describe('Home Page - Multilingual UI Support', () => {
   beforeEach(() => {
