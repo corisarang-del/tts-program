@@ -33,7 +33,6 @@ export default function SituationPage() {
       setSituations(response.situations);
       setError(null);
     } catch (err) {
-      console.error('Failed to fetch situations:', err);
       setError(language === 'ko' ? '상황 목록을 불러올 수 없습니다.' : language === 'en' ? 'Failed to load situations.' : language === 'ja' ? '状況を読み込めませんでした。' : '无法加载情况。');
     } finally {
       setLoading(false);

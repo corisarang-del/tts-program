@@ -10,8 +10,10 @@ import { useAppStore } from '@/lib/store';
 jest.mock('@/lib/store');
 jest.mock('next/navigation');
 jest.mock('@/components/landing/Features', () => {
-  return function MockFeatures() {
-    return <div data-testid="mock-features">Features Component</div>;
+  return {
+    Features: function MockFeatures() {
+      return <div data-testid="mock-features">Features Component</div>;
+    },
   };
 });
 jest.mock('@/components/landing/Hero', () => {
