@@ -224,7 +224,7 @@ export async function generateTTS(
   try {
     // Google Cloud TTS 인증 확인
     // 환경 변수를 여러 방법으로 확인
-    const apiKey = process.env.GOOGLE_CLOUD_API_KEY;
+    const apiKey = process.env.GOOGLE_CLOUD_API_KEY || process.env.GOOGLE_API_KEY;
     let credentialsPath = process.env.GOOGLE_APPLICATION_CREDENTIALS;
     const projectId = process.env.GOOGLE_CLOUD_PROJECT_ID || '';
     const keyJson = process.env.GOOGLE_CLOUD_KEY;
