@@ -9,7 +9,7 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   zh: '中文',
 };
 
-type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent' | 'whichIntention' | 'retry' | 'whichSituation' | 'wasItHelpful' | 'rateHelpfulness' | 'solved' | 'okay' | 'notHelpful' | 'skip';
+type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent' | 'whichIntention' | 'retry' | 'whichSituation' | 'wasItHelpful' | 'rateHelpfulness' | 'solved' | 'okay' | 'notHelpful' | 'skip' | 'usageComplete' | 'usageCompleted' | 'tryAnotherSituation' | 'goToHome';
 
 const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
   copy: {
@@ -119,6 +119,30 @@ const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
     en: 'Skip',
     ja: 'スキップ',
     zh: '跳过',
+  },
+  usageComplete: {
+    ko: '사용 완료',
+    en: 'Usage complete',
+    ja: '使用完了',
+    zh: '使用完成',
+  },
+  usageCompleted: {
+    ko: '사용이 완료되었습니다',
+    en: 'Usage completed',
+    ja: '使用完了しました',
+    zh: '使用已完成',
+  },
+  tryAnotherSituation: {
+    ko: '다른 상황 선택',
+    en: 'Try another situation',
+    ja: '別の状況を選択',
+    zh: '选择另一种情况',
+  },
+  goToHome: {
+    ko: '처음으로',
+    en: 'Go to home',
+    ja: 'ホームへ',
+    zh: '返回首页',
   },
 };
 
