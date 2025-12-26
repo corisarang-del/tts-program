@@ -7,6 +7,7 @@ const nextConfig = {
   // GitHub Pages는 정적 빌드, Vercel은 동적 빌드
   ...(isGitHubPages && {
     output: 'export',
+    basePath: '/tts-program',
     images: {
       unoptimized: true,
     },
