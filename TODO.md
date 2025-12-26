@@ -1,9 +1,9 @@
-# MVP TODO LIST - Phase 1 완료 (2025.12.26)
+# MVP TODO LIST - Phase 1 완료 (2025.12.27)
 
 ## 상태 요약
 - **Phase 1 MVP**: 완료
-- **완료율**: 95% (필수 기능 모두 구현)
-- **배포 상태**: GitHub에 푸시 완료, Vercel 배포 준비 됨
+- **완료율**: 100% (필수 기능 모두 구현, 랜딩 페이지 리뉴얼 완료)
+- **배포 상태**: GitHub에 푸시 완료 (commit: 2cf9fa1), Vercel 배포 준비 됨
 
 ---
 
@@ -92,11 +92,12 @@
 
 - [x] `/app/api/generate/route.ts` - POST
   - [x] situationId, intentId 검증
-  - [x] OpenAI GPT-4 API 호출
+  - [x] Google Gemini API 호출 (OpenAI 대체)
   - [x] 다국어 지원 (language 파라미터)
   - [x] 저장된 문장 캐싱 (forceGenerate 옵션)
+  - [x] 최소 2개 문장 보장 (2025.12.27)
+  - [x] 재시도 로직 (2개 미만 시 재시도)
   - [x] Rate limiting 에러 처리
-  - [x] 2-3개 문장 생성
 
 - [x] `/app/api/tts/route.ts` - POST
   - [x] Google Cloud Text-to-Speech API 호출
@@ -111,10 +112,12 @@
   - [x] sessionId 기반 추적
 
 ### AI/ML 통합
-- [x] `/lib/openai.ts` - OpenAI 클라이언트
+- [x] `/lib/openai.ts` - Gemini API 클라이언트 (2025.12.27 업데이트)
   - [x] generateSentences(situation, intent, language) 함수
   - [x] 프롬프트 템플릿 (한국어 문화 반영)
-  - [x] 응답 파싱 및 검증
+  - [x] 응답 파싱 및 검증 (최소 5자 이상, 불완전한 문장 제외)
+  - [x] 최소 2개 문장 보장 로직
+  - [x] 재시도 로직 구현
   - [x] Rate limiting 처리
   - [x] 다국어 프롬프트 지원
 
@@ -129,13 +132,15 @@
 ## 🎯 프론트엔드 페이지 (완료)
 
 ### 1. 랜딩 페이지
-- [x] `/app/page.tsx` 완료
+- [x] `/app/page.tsx` 완료 (리뉴얼됨, 2025.12.27)
+  - [x] 컴포넌트 기반 구조 (Hero, Features, HowTo, Footer)
   - [x] 서비스 제목 "QuickTalk"
-  - [x] 한 줄 설명
-  - [x] 핵심 가치 3가지 표시
+  - [x] 한 줄 설명 및 핵심 가치 3가지
   - [x] 사용 방법 3단계 시각화
   - [x] 시작하기 버튼
   - [x] 반응형 디자인
+  - [x] Noto Sans KR 폰트 적용
+  - [x] 브랜드 컬러 시스템 적용
   - [x] 로그 수집 안내
 
 ### 2. 상황 선택 페이지
@@ -234,7 +239,8 @@
 
 ### GitHub
 - [x] GitHub 저장소 생성
-- [x] 코드 푸시 완료 (commit: f01b203)
+- [x] 코드 푸시 완료 (최신 commit: 2cf9fa1)
+- [x] 랜딩 페이지 리뉴얼 푸시 (2025.12.27)
 - [ ] README 배지 추가 (Build, Coverage, License)
 
 ### Vercel
@@ -307,10 +313,10 @@
 
 ## 📝 문서화 (진행 중)
 
-- [x] README.md 최신화
-- [x] PRD.md 최신화
-- [x] TODO.md (이 파일)
-- [x] plan.md 생성
+- [x] README.md 최신화 (2025.12.27)
+- [x] PRD.md 최신화 (v1.2, 2025.12.27)
+- [x] TODO.md 최신화 (이 파일, 2025.12.27)
+- [x] 프로젝트 구조 & 문서 동기화 완료 (2025.12.27)
 - [ ] API 문서 (Swagger/OpenAPI)
 - [ ] 개발자 가이드
 - [ ] 사용자 가이드
@@ -362,6 +368,16 @@
 
 ---
 
-**마지막 업데이트**: 2025-12-26 23:59
+**마지막 업데이트**: 2025-12-27 완료
 **담당자**: Claude
 **상태**: Phase 1 MVP 완료, Phase 2 준비 중
+
+## 최근 변경사항 (2025.12.27)
+- 랜딩 페이지 완전 리뉴얼 (컴포넌트 기반 구조)
+- Gemini API 통합 (OpenAI 대체)
+- 문장 생성 안정성 강화 (최소 2개 보장, 재시도 로직)
+- Noto Sans KR 폰트 적용
+- 브랜드 컬러 시스템 추가
+- Header 네비게이션 개선
+- 다국어 텍스트 대폭 추가
+- prd.md, README.md, TODO.md 동기화 완료

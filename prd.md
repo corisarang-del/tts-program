@@ -1,8 +1,8 @@
 Product Requirements Document
 상황 기반 즉시 소통 서비스 (QuickTalk)
-Version: 1.1
-Date: 2025.12.26
-Status: MVP Phase 1 완료, Phase 2 진행 예정
+Version: 1.2
+Date: 2025.12.27
+Status: MVP Phase 1 완료, Phase 2 준비 중
 문서 이력
 날짜	버전	변경 내용	작성자
 2025.12.25	1.0	초안 작성	-
@@ -152,7 +152,7 @@ TTS 버튼	각 문장마다 재생 버튼	P0
 • Axios 1.7.7 (HTTP 클라이언트)
 백엔드
 • Next.js 14.2.5 API Routes (Node.js)
-• OpenAI API 4.52.7 (GPT-4/3.5-turbo)
+• Google Gemini API (문장 생성, 최소 2개 보장, 재시도 로직)
 • Google Cloud Text-to-Speech API (음성 합성)
 • 다국어 지원: 한국어(ko), 영어(en), 일본어(ja), 중국어(zh)
 데이터베이스
@@ -196,16 +196,19 @@ TTS 재생률	> 60%	TTS Click / Total Sessions
 • NPS (Net Promoter Score): > 50
 7. 개발 로드맵 (Development Roadmap)
 7.1 Phase 1: MVP (완료)
-상태: 2025.12.26 완료
+상태: 2025.12.27 완료
 구현된 기능:
-• 모든 페이지: 랜딩, 상황 선택, 의도 선택, 문장 출력, 결과 평가, 분석
+• 모든 페이지: 리뉴얼된 랜딩, 상황 선택, 의도 선택, 문장 출력, 결과 평가, 분석
 • 백엔드 API: /api/situations, /api/intents, /api/generate, /api/tts, /api/log
 • 상태 관리: Zustand store (situation, intent, sentences, ttsPlayed, resultRating, language)
 • 에러 처리 및 로깅: AppError, createErrorResponse, logError
 • 데이터베이스: Supabase PostgreSQL + JSON Fallback
-• AI 통합: OpenAI GPT-4 문장 생성
+• AI 통합: Gemini API 문장 생성 (OpenAI 대체, 최소 2개 보장, 재시도 로직 추가)
 • TTS 통합: Google Cloud Text-to-Speech (캐싱 포함)
-• 다국어 지원: ko, en, ja, zh 타입 정의 완료
+• 다국어 지원: ko, en, ja, zh 완전 구현
+• UI/UX: 컴포넌트 기반 랜딩 페이지 (Hero, Features, HowTo, Footer)
+• 디자인: Noto Sans KR 폰트, 브랜드 컬러 시스템 추가
+• 네비게이션: 고정 헤더, 언어 선택 토글 통합
 • 테스트 환경: Jest, React Testing Library 설정 완료
 
 7.2 Phase 2: 기능 확장 (진행 중)

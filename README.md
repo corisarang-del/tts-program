@@ -42,9 +42,9 @@
   - **이유**: 별도 백엔드 서버 불필요, 프론트엔드와 같은 저장소
   - **장점**: 배포 간편, Edge Functions 지원, 낮은 레이턴시
   
-- **OpenAI GPT-4 API**
-  - **이유**: 자연스러운 문장 생성, 다양한 상황/의도 처리 가능
-  - **장점**: 빠른 응답 속도, 한국어 성능 우수, API 사용 간편
+- **Google Gemini API**
+  - **이유**: 자연스러운 문장 생성, 다양한 상황/의도 처리 가능, 비용 효율적
+  - **장점**: 빠른 응답 속도, 한국어 성능 우수, 안정적 재시도 로직 지원
   
 - **Google Cloud Text-to-Speech**
   - **이유**: 고품질 한국어 음성 합성, 안정적 서비스, 다양한 음성 옵션
@@ -69,6 +69,10 @@
 - **Vercel Analytics**
   - **이유**: 통합 분석 도구, 실시간 데이터
   - **장점**: 설정 불필요, Web Vitals 자동 수집
+
+- **Noto Sans KR 폰트**
+  - **이유**: 한국어 최적화 폰트, 웹폰트 지원
+  - **장점**: 모든 가중치 제공 (400, 500, 700, 900)
 
 ---
 
@@ -113,10 +117,16 @@ quicktalk/
 │   │   ├── Button.tsx
 │   │   ├── Card.tsx
 │   │   ├── Loader.tsx
-│   │   └── Header.tsx
+│   │   ├── Header.tsx
+│   │   ├── Container.tsx
+│   │   └── Section.tsx
 │   │
-│   └── layout/                   # 레이아웃 컴포넌트
-│       └── Container.tsx
+│   └── landing/                  # 랜딩 페이지 컴포넌트
+│       ├── Hero.tsx              # 히어로 섹션
+│       ├── Features.tsx           # 기능 소개
+│       ├── HowTo.tsx             # 사용 방법
+│       ├── Footer.tsx            # 푸터
+│       └── Button.tsx            # 랜딩 버튼
 │
 ├── lib/                          # 유틸리티 & 비즈니스 로직
 │   ├── store.ts                  # Zustand 상태 관리 (situation, intent, language 포함)
@@ -133,7 +143,8 @@ quicktalk/
 ├── types/                        # TypeScript 타입 정의
 │   ├── index.ts                  # 공통 타입 (Situation, Intent, UsageLog, Locale, LocalizedText)
 │   ├── api.ts                    # API 응답 타입 (GenerateResponse, etc)
-│   └── store.ts                  # Store 타입 (AppState)
+│   ├── store.ts                  # Store 타입 (AppState)
+│   └── landing.ts                # 랜딩 페이지 타입
 │
 ├── data/                         # 정적 데이터
 │   ├── situations.json           # 상황 목록
