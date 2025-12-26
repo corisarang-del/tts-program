@@ -9,7 +9,7 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   zh: '中文',
 };
 
-type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent' | 'whichIntention' | 'retry' | 'whichSituation';
+type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent' | 'whichIntention' | 'retry' | 'whichSituation' | 'wasItHelpful' | 'rateHelpfulness' | 'solved' | 'okay' | 'notHelpful' | 'skip';
 
 const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
   copy: {
@@ -83,6 +83,42 @@ const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
     en: 'What situation are you in?',
     ja: 'どんな状況ですか?',
     zh: '你的情况是什么?',
+  },
+  wasItHelpful: {
+    ko: '도움이 되셨나요?',
+    en: 'Was this helpful?',
+    ja: '役に立ちました?',
+    zh: '有帮助吗?',
+  },
+  rateHelpfulness: {
+    ko: '생성된 문장이 도움이 되었는지 평가해주세요',
+    en: 'Please rate if the generated sentences were helpful',
+    ja: '生成された文が役に立ったかを評価してください',
+    zh: '请评价生成的句子是否有帮助',
+  },
+  solved: {
+    ko: '해결됨 😊',
+    en: 'Solved 😊',
+    ja: '解決 😊',
+    zh: '已解决 😊',
+  },
+  okay: {
+    ko: '보통 😐',
+    en: 'Okay 😐',
+    ja: '普通 😐',
+    zh: '一般 😐',
+  },
+  notHelpful: {
+    ko: '도움 안됨 😞',
+    en: 'Not helpful 😞',
+    ja: '役に立たなかった 😞',
+    zh: '没有帮助 😞',
+  },
+  skip: {
+    ko: '건너뛰기',
+    en: 'Skip',
+    ja: 'スキップ',
+    zh: '跳过',
   },
 };
 

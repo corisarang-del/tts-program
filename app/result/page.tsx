@@ -10,10 +10,11 @@ import Header from '@/components/ui/Header';
 import Button from '@/components/ui/Button';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
+import { getUIText } from '@/lib/i18n';
 
 export default function ResultPage() {
   const router = useRouter();
-  const { situation, intent, sentences, ttsPlayed, resultRating, setResultRating } = useAppStore();
+  const { situation, intent, sentences, ttsPlayed, resultRating, setResultRating, language } = useAppStore();
   const [submitting, setSubmitting] = useState(false);
 
   const handleRating = async (rating: number) => {
@@ -44,7 +45,7 @@ export default function ResultPage() {
       router.push('/analysis');
     } catch (err) {
       console.error('Failed to save log:', err);
-      toast.error('평가 저장에 실패했습니다');
+      toast.error(language === 'ko' ? '평가 저장에 실패했습니다' : language === 'en' ? 'Failed to save rating' : language === 'ja' ? '評価の保存に失敗しました' : '保存评分失败');
       router.push('/analysis');
     } finally {
       setSubmitting(false);
@@ -57,13 +58,13 @@ export default function ResultPage() {
 
   return (
     <div className="min-h-screen">
-      <Header title="도움이 되셨나요?" />
+      <Header title={getUIText('wasItHelpful', language)} />
 
       <Section variant="subtle">
         <Container>
           <div className="text-center mb-12">
             <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8">
-              생성된 문장이 도움이 되었는지 평가해주세요
+              {getUIText('rateHelpfulness', language)}
             </p>
           </div>
 
@@ -76,7 +77,7 @@ export default function ResultPage() {
               loading={submitting}
               disabled={submitting}
             >
-              해결됨 😊
+              {getUIText('solved', language)}
             </Button>
 
             <Button
@@ -87,7 +88,7 @@ export default function ResultPage() {
               loading={submitting}
               disabled={submitting}
             >
-              보통 😐
+              {getUIText('okay', language)}
             </Button>
 
             <Button
@@ -98,7 +99,7 @@ export default function ResultPage() {
               loading={submitting}
               disabled={submitting}
             >
-              도움 안됨 😞
+              {getUIText('notHelpful', language)}
             </Button>
           </div>
 
@@ -108,7 +109,7 @@ export default function ResultPage() {
               className="text-neutral-500 dark:text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 underline"
               disabled={submitting}
             >
-              건너뛰기
+              {getUIText('skip', language)}
             </button>
           </div>
         </Container>
