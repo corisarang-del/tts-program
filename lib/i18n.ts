@@ -9,7 +9,7 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   zh: '中文',
 };
 
-type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent' | 'whichIntention' | 'retry' | 'whichSituation' | 'wasItHelpful' | 'rateHelpfulness' | 'solved' | 'okay' | 'notHelpful' | 'skip' | 'usageComplete' | 'usageCompleted' | 'tryAnotherSituation' | 'goToHome';
+type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent' | 'whichIntention' | 'retry' | 'whichSituation' | 'wasItHelpful' | 'rateHelpfulness' | 'solved' | 'okay' | 'notHelpful' | 'skip' | 'usageComplete' | 'usageCompleted' | 'tryAnotherSituation' | 'goToHome' | 'homeMainTitle' | 'homeStartButton' | 'homeFeatureMinimalClicks' | 'homeFeatureInstantResults' | 'homeFeatureVoiceSupport';
 
 const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
   copy: {
@@ -143,6 +143,36 @@ const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
     en: 'Go to home',
     ja: 'ホームへ',
     zh: '返回首页',
+  },
+  homeMainTitle: {
+    ko: '상황만 선택하면',
+    en: 'Select a situation',
+    ja: '状況を選ぶだけで',
+    zh: '只需选择情况',
+  },
+  homeStartButton: {
+    ko: '지금 시작하기 →',
+    en: 'Start now →',
+    ja: '今すぐ始める →',
+    zh: '立即开始 →',
+  },
+  homeFeatureMinimalClicks: {
+    ko: '최소 클릭',
+    en: 'Minimal clicks',
+    ja: '最小限のクリック',
+    zh: '最少点击次数',
+  },
+  homeFeatureInstantResults: {
+    ko: '즉시 제공',
+    en: 'Instant results',
+    ja: '即座に提供',
+    zh: '立即提供',
+  },
+  homeFeatureVoiceSupport: {
+    ko: '음성 지원',
+    en: 'Voice support',
+    ja: '音声サポート',
+    zh: '语音支持',
   },
 };
 

@@ -3,29 +3,32 @@
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
 import { useState } from 'react';
+import { useAppStore } from '@/lib/store';
+import { getUIText } from '@/lib/i18n';
 
 export default function Home() {
+  const { language } = useAppStore();
   const [hoveredFeature, setHoveredFeature] = useState<number | null>(null);
 
   const features = [
     {
       id: 1,
       emoji: '⚡',
-      title: '최소 클릭',
+      title: getUIText('homeFeatureMinimalClicks', language),
       description: '2~3번의 선택만으로 완성된 문장을 바로 얻어보세요',
       detail: '불필요한 단계는 모두 제거했습니다',
     },
     {
       id: 2,
       emoji: '🚀',
-      title: '즉시 제공',
+      title: getUIText('homeFeatureInstantResults', language),
       description: '선택하는 순간 결과가 나옵니다',
       detail: '고민할 시간은 줄이고 사용할 시간을 늘려보세요',
     },
     {
       id: 3,
       emoji: '🔊',
-      title: '음성 지원',
+      title: getUIText('homeFeatureVoiceSupport', language),
       description: 'TTS로 들으며 활용할 수 있습니다',
       detail: '다양한 목소리와 발음 옵션을 제공합니다',
     },
@@ -71,7 +74,7 @@ export default function Home() {
 
             {/* 메인 제목 */}
             <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-semie-dark leading-tight">
-              상황만 선택하면
+              {getUIText('homeMainTitle', language)}
               <br />
               <span className="bg-gradient-to-r from-semie-coral to-semie-rose bg-clip-text text-transparent">
                 바로 쓸 수 있는 문장
@@ -89,7 +92,7 @@ export default function Home() {
             <div className="pt-4">
               <Link href="/situation">
                 <button className="bg-semie-coral hover:bg-semie-coral/90 text-white font-bold px-10 py-4 rounded-full text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-lg active:scale-95 shadow-lg">
-                  지금 시작하기 →
+                  {getUIText('homeStartButton', language)}
                 </button>
               </Link>
             </div>
