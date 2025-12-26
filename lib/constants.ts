@@ -1,10 +1,15 @@
+// API Base URL
+const API_BASE = typeof window !== 'undefined'
+  ? (process.env.NEXT_PUBLIC_API_URL || '')
+  : '';
+
 // API Endpoints
 export const API_ENDPOINTS = {
-  SITUATIONS: '/api/situations',
-  INTENTS: '/api/intents',
-  GENERATE: '/api/generate',
-  TTS: '/api/tts',
-  LOG: '/api/log',
+  SITUATIONS: `${API_BASE}/api/situations`,
+  INTENTS: `${API_BASE}/api/intents`,
+  GENERATE: `${API_BASE}/api/generate`,
+  TTS: `${API_BASE}/api/tts`,
+  LOG: `${API_BASE}/api/log`,
 } as const;
 
 // Local Storage Keys
