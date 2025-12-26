@@ -13,7 +13,7 @@ import Loader from '@/components/ui/Loader';
 import Section from '@/components/ui/Section';
 import Container from '@/components/ui/Container';
 import Button from '@/components/ui/Button';
-import { getLocalizedText } from '@/lib/i18n';
+import { getLocalizedText, getUIText } from '@/lib/i18n';
 
 export default function SituationPage() {
   const router = useRouter();
@@ -34,7 +34,7 @@ export default function SituationPage() {
       setError(null);
     } catch (err) {
       console.error('Failed to fetch situations:', err);
-      setError('상황 목록을 불러올 수 없습니다.');
+      setError(language === 'ko' ? '상황 목록을 불러올 수 없습니다.' : language === 'en' ? 'Failed to load situations.' : language === 'ja' ? '状況を読み込めませんでした。' : '无法加载情况。');
     } finally {
       setLoading(false);
     }
@@ -47,7 +47,7 @@ export default function SituationPage() {
 
   return (
     <div className="min-h-screen">
-      <Header title="어떤 상황인가요?" showBack backUrl="/" />
+      <Header title={getUIText('whichSituation', language)} showBack backUrl="/" />
 
       <Section variant="subtle">
         <Container>
@@ -59,7 +59,7 @@ export default function SituationPage() {
             <div className="text-center py-16">
               <p className="text-error dark:text-red-400 mb-4">{error}</p>
               <Button onClick={fetchSituations} variant="primary">
-                다시 시도
+                {getUIText('retry', language)}
               </Button>
             </div>
           ) : (
