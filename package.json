@@ -19,7 +19,9 @@
     "axios": "^1.7.7",
     "react-hot-toast": "^2.4.1",
     "openai": "^4.52.7",
-    "@supabase/supabase-js": "^2.45.4"
+    "@supabase/supabase-js": "^2.45.4",
+    "framer-motion": "^12.23.26",
+    "lucide-react": "^0.562.0"
   },
   "devDependencies": {
     "typescript": "^5.5.4",
@@ -37,4 +39,3 @@
     "jest-environment-jsdom": "^29.7.0"
   }
 }
-
