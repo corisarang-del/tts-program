@@ -134,12 +134,7 @@ Vercel에서 "Deploy" 클릭
 Settings → Secrets and variables → Actions에서:
 
 ```
-GITHUB_PAGES_API_URL = https://quicktalk-api.vercel.app
-```
 
-(위에서 취득한 Vercel API URL 입력)
-
-### 5단계: 배포 확인
 
 1. main 브랜치에 작은 변경 커밋
 

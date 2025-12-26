@@ -2,8 +2,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { generateTTS, localeToLanguageCode, getDefaultVoiceForLocale } from '@/lib/tts';
 import { createErrorResponse, logError, AppError } from '@/lib/error-handler';
 import { Locale } from '@/types';
+import { corsHeaders, handleCorsOptions, addCorsHeaders } from '@/lib/cors';
 
 export const runtime = 'nodejs';
+
+export async function OPTIONS() {
+  return handleCorsOptions();
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -56,16 +61,19 @@ export async function POST(request: NextRequest) {
 
     const duration = Math.ceil(text.length * 0.1);
 
-    return new NextResponse(new Uint8Array(audioBuffer), {
+    const response = new NextResponse(new Uint8Array(audioBuffer), {
       headers: {
         'Content-Type': 'audio/mpeg',
         'Content-Length': audioBuffer.length.toString(),
         'X-Audio-Cached': String(cached),
         'X-Audio-Duration': String(duration),
+        ...corsHeaders,
       },
     });
+    return response;
   } catch (error) {
     logError(error, 'POST /api/tts');
-    return createErrorResponse(error, '음성 생성 중 오류가 발생했습니다.');
+    const errorResponse = createErrorResponse(error, '음성 생성 중 오류가 발생했습니다.');
+    return addCorsHeaders(errorResponse);
   }
 }

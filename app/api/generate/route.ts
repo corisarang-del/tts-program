@@ -4,6 +4,11 @@ import { getSituations, getIntents } from '@/lib/db';
 import { GenerateResponse } from '@/types/api';
 import { createErrorResponse, logError, AppError } from '@/lib/error-handler';
 import { getLocalizedSentences, LOCALES } from '@/lib/i18n';
+import { handleCorsOptions, addCorsHeaders } from '@/lib/cors';
+
+export async function OPTIONS() {
+  return handleCorsOptions();
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -48,7 +53,8 @@ export async function POST(request: NextRequest) {
         sentences: storedSentences.slice(0, 3),
         generatedAt: new Date().toISOString(),
       };
-      return NextResponse.json(response);
+      const jsonResponse = NextResponse.json(response);
+      return addCorsHeaders(jsonResponse);
     }
 
     // forceGenerate가 true이거나 저장된 문장이 없으면 AI로 생성
@@ -74,8 +80,9 @@ export async function POST(request: NextRequest) {
       sentences: sentences.slice(0, 3), // 최대 3개까지만
       generatedAt: new Date().toISOString(),
     };
-    
-    return NextResponse.json(response);
+
+    const jsonResponse = NextResponse.json(response);
+    return addCorsHeaders(jsonResponse);
   } catch (error: unknown) {
     logError(error, 'POST /api/generate');
     
@@ -88,7 +95,7 @@ export async function POST(request: NextRequest) {
         ('message' in error && typeof (error as any).message === 'string' && (error as any).message.includes('rate limit'))
       )
     ) {
-      return createErrorResponse(
+      const errorResponse = createErrorResponse(
         new AppError(
           429,
           'Rate limit exceeded',
@@ -97,8 +104,10 @@ export async function POST(request: NextRequest) {
         ),
         '요청이 너무 많습니다. 잠시 후 다시 시도해주세요.'
       );
+      return addCorsHeaders(errorResponse);
     }
-    
-    return createErrorResponse(error, '문장 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
+
+    const errorResponse = createErrorResponse(error, '문장 생성 중 오류가 발생했습니다. 다시 시도해주세요.');
+    return addCorsHeaders(errorResponse);
   }
 }
