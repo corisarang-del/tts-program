@@ -9,6 +9,69 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   zh: '中文',
 };
 
+type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent';
+
+const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
+  copy: {
+    ko: '복사',
+    en: 'Copy',
+    ja: 'コピー',
+    zh: '复制',
+  },
+  play: {
+    ko: '🔊 듣기',
+    en: '🔊 Listen',
+    ja: '🔊 再生',
+    zh: '🔊 播放',
+  },
+  pause: {
+    ko: '일시정지',
+    en: 'Pause',
+    ja: '一時停止',
+    zh: '暂停',
+  },
+  regenerate: {
+    ko: '다시 생성',
+    en: 'Regenerate',
+    ja: '再生成',
+    zh: '重新生成',
+  },
+  next: {
+    ko: '다음',
+    en: 'Next',
+    ja: '次',
+    zh: '下一步',
+  },
+  back: {
+    ko: '돌아가기',
+    en: 'Back',
+    ja: '戻る',
+    zh: '返回',
+  },
+  generatedSentences: {
+    ko: '생성된 문장',
+    en: 'Generated Sentences',
+    ja: '生成された文',
+    zh: '生成的句子',
+  },
+  noSentences: {
+    ko: '생성된 문장이 없습니다.',
+    en: 'No generated sentences.',
+    ja: '生成された文がありません。',
+    zh: '没有生成的句子。',
+  },
+  backToIntent: {
+    ko: '의도 선택으로 돌아가기',
+    en: 'Back to Intent Selection',
+    ja: '意図選択に戻る',
+    zh: '返回意图选择',
+  },
+};
+
+export function getUIText(key: UITextKey, locale: Locale): string {
+  return UI_TEXTS[key]?.[locale] || UI_TEXTS[key]?.['ko'] || '';
+}
+
 export function getLocalizedText(text: LocalizedText, locale: Locale): string {
   if (text?.[locale]) {
     return text[locale];

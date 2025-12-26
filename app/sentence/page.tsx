@@ -59,7 +59,7 @@ export default function SentencePage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ text }),
+        body: JSON.stringify({ text, language }),
       });
 
       if (!response.ok) {

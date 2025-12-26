@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { generateTTS } from '@/lib/tts';
+import { generateTTS, localeToLanguageCode, getDefaultVoiceForLocale } from '@/lib/tts';
 import { createErrorResponse, logError, AppError } from '@/lib/error-handler';
+import { Locale } from '@/types';
 
 export const runtime = 'nodejs';
 
@@ -20,7 +21,7 @@ export async function POST(request: NextRequest) {
     });
     
     const body = await request.json();
-    const { text, voice } = body;
+    const { text, voice, language } = body;
 
     if (!text) {
       throw new AppError(
@@ -30,7 +31,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { audioBuffer, cached } = await generateTTS(text, voice || 'ko-KR-Standard-A');
+    // 언어 코드 결정: language 파라미터가 있으면 사용, 없으면 voice에서 추출하거나 기본값 사용
+    let languageCode: string | undefined;
+    let finalVoice = voice;
+    
+    if (language) {
+      // Locale 타입 검증
+      const validLocales: Locale[] = ['ko', 'en', 'ja', 'zh'];
+      if (validLocales.includes(language as Locale)) {
+        languageCode = localeToLanguageCode(language as Locale);
+        // voice가 제공되지 않았으면 언어에 맞는 기본 음성 사용
+        if (!finalVoice) {
+          finalVoice = getDefaultVoiceForLocale(language as Locale);
+        }
+      }
+    }
+    
+    // voice가 제공되지 않았고 language도 없으면 기본값 사용
+    if (!finalVoice) {
+      finalVoice = 'ko-KR-Standard-A';
+    }
+
+    const { audioBuffer, cached } = await generateTTS(text, finalVoice, languageCode);
 
     const duration = Math.ceil(text.length * 0.1);
 

@@ -3,19 +3,21 @@ import os from 'os';
 import path from 'path';
 import { getEnv } from '@/lib/env';
 import { AppError } from '@/lib/error-handler';
+import { Locale } from '@/types';
 
 // Google Cloud TTS REST API를 사용하여 API 키로 인증
 async function callGoogleCloudTTSRESTAPI(
   text: string,
   voice: string,
-  apiKey: string
+  apiKey: string,
+  languageCode: string
 ): Promise<Buffer> {
   const url = `https://texttospeech.googleapis.com/v1/text:synthesize?key=${apiKey}`;
   
   const requestBody = {
     input: { text },
     voice: {
-      languageCode: 'ko-KR',
+      languageCode,
       name: voice,
     },
     audioConfig: {
@@ -123,23 +125,82 @@ function getTextHash(text: string): string {
   return Math.abs(hash).toString(36);
 }
 
+// Locale을 Google Cloud TTS languageCode로 변환
+export function localeToLanguageCode(locale: Locale): string {
+  const mapping: Record<Locale, string> = {
+    ko: 'ko-KR',
+    en: 'en-US',
+    ja: 'ja-JP',
+    zh: 'cmn-CN',
+  };
+  return mapping[locale] || 'ko-KR';
+}
+
+// voice에서 languageCode 추출 (voice 형식: {languageCode}-{variant}, 예: en-US-Standard-A, cmn-CN-Standard-A)
+function extractLanguageCodeFromVoice(voice: string): string {
+  const match = voice.match(/^([a-z]+-[A-Z]+)-/);
+  return match ? match[1] : 'ko-KR';
+}
+
+// 언어에 따른 기본 음성 선택
+export function getDefaultVoiceForLocale(locale: Locale): GoogleCloudVoice {
+  const defaultVoices: Record<Locale, GoogleCloudVoice> = {
+    ko: 'ko-KR-Standard-A',
+    en: 'en-US-Standard-C', // 여성 음성
+    ja: 'ja-JP-Standard-C', // 여성 음성
+    zh: 'cmn-CN-Standard-A', // 중국어(만다린) 여성 음성
+  };
+  return defaultVoices[locale] || 'ko-KR-Standard-A';
+}
+
 // Google Cloud TTS 음성 옵션
 export type GoogleCloudVoice =
-  | 'ko-KR-Standard-A' // 여성 음성
-  | 'ko-KR-Standard-B' // 남성 음성
-  | 'ko-KR-Standard-C' // 여성 음성
-  | 'ko-KR-Standard-D' // 남성 음성
-  | 'ko-KR-Wavenet-A'  // 고품질 여성 음성
-  | 'ko-KR-Wavenet-B'  // 고품질 남성 음성
-  | 'ko-KR-Wavenet-C'  // 고품질 여성 음성
-  | 'ko-KR-Wavenet-D'; // 고품질 남성 음성
+  | 'ko-KR-Standard-A' // 한국어 여성 음성
+  | 'ko-KR-Standard-B' // 한국어 남성 음성
+  | 'ko-KR-Standard-C' // 한국어 여성 음성
+  | 'ko-KR-Standard-D' // 한국어 남성 음성
+  | 'ko-KR-Wavenet-A'  // 한국어 고품질 여성 음성
+  | 'ko-KR-Wavenet-B'  // 한국어 고품질 남성 음성
+  | 'ko-KR-Wavenet-C'  // 한국어 고품질 여성 음성
+  | 'ko-KR-Wavenet-D'  // 한국어 고품질 남성 음성
+  | 'en-US-Standard-B' // 영어 남성 음성
+  | 'en-US-Standard-C' // 영어 여성 음성
+  | 'en-US-Standard-D' // 영어 남성 음성
+  | 'en-US-Standard-E' // 영어 여성 음성
+  | 'en-US-Standard-F' // 영어 여성 음성
+  | 'en-US-Standard-G' // 영어 여성 음성
+  | 'en-US-Standard-H' // 영어 여성 음성
+  | 'en-US-Wavenet-B'  // 영어 고품질 남성 음성
+  | 'en-US-Wavenet-C'  // 영어 고품질 여성 음성
+  | 'en-US-Wavenet-D'  // 영어 고품질 남성 음성
+  | 'en-US-Wavenet-E'  // 영어 고품질 여성 음성
+  | 'en-US-Wavenet-F'  // 영어 고품질 여성 음성
+  | 'en-US-Wavenet-G'  // 영어 고품질 여성 음성
+  | 'en-US-Wavenet-H'  // 영어 고품질 여성 음성
+  | 'ja-JP-Standard-B' // 일본어 남성 음성
+  | 'ja-JP-Standard-C' // 일본어 여성 음성
+  | 'ja-JP-Standard-D' // 일본어 남성 음성
+  | 'ja-JP-Wavenet-B'  // 일본어 고품질 남성 음성
+  | 'ja-JP-Wavenet-C'  // 일본어 고품질 여성 음성
+  | 'ja-JP-Wavenet-D'  // 일본어 고품질 남성 음성
+  | 'cmn-CN-Standard-A' // 중국어(만다린) 여성 음성
+  | 'cmn-CN-Standard-B' // 중국어(만다린) 남성 음성
+  | 'cmn-CN-Standard-C' // 중국어(만다린) 여성 음성
+  | 'cmn-CN-Standard-D' // 중국어(만다린) 남성 음성
+  | 'cmn-CN-Wavenet-A'  // 중국어(만다린) 고품질 여성 음성
+  | 'cmn-CN-Wavenet-B'  // 중국어(만다린) 고품질 남성 음성
+  | 'cmn-CN-Wavenet-C'  // 중국어(만다린) 고품질 여성 음성
+  | 'cmn-CN-Wavenet-D'; // 중국어(만다린) 고품질 남성 음성
 
 // TTS 생성 함수
 export async function generateTTS(
   text: string,
-  voice: GoogleCloudVoice = 'ko-KR-Standard-A'
+  voice: GoogleCloudVoice = 'ko-KR-Standard-A',
+  languageCode?: string
 ): Promise<{ audioBuffer: Buffer; cached: boolean }> {
-  const textHash = getTextHash(text + voice);
+  // languageCode가 제공되지 않으면 voice에서 추출
+  const finalLanguageCode = languageCode || extractLanguageCodeFromVoice(voice);
+  const textHash = getTextHash(text + voice + finalLanguageCode);
   const memoryCached = memoryCache.get(textHash);
   if (memoryCached) {
     return { audioBuffer: memoryCached, cached: true };
@@ -207,7 +268,7 @@ export async function generateTTS(
 
     if (apiKey) {
       // REST API를 사용하여 API 키로 인증 (프로젝트 ID는 선택사항)
-      buffer = await callGoogleCloudTTSRESTAPI(text, voice, apiKey);
+      buffer = await callGoogleCloudTTSRESTAPI(text, voice, apiKey, finalLanguageCode);
     } else if (credentialsPath) {
       // 서비스 계정 키 파일 사용 (기존 SDK 방식)
       // 절대 경로 또는 상대 경로 모두 처리
@@ -272,7 +333,7 @@ export async function generateTTS(
       const [response] = await client.synthesizeSpeech({
         input: { text },
         voice: {
-          languageCode: 'ko-KR',
+          languageCode: finalLanguageCode,
           name: voice,
         },
         audioConfig: {
@@ -301,7 +362,7 @@ export async function generateTTS(
         const [response] = await client.synthesizeSpeech({
           input: { text },
           voice: {
-            languageCode: 'ko-KR',
+            languageCode: finalLanguageCode,
             name: voice,
           },
           audioConfig: {
