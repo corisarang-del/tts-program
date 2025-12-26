@@ -40,7 +40,7 @@ jobs:
         run: npm run build
         env:
           DEPLOYMENT_TARGET: github-pages
-          NEXT_PUBLIC_API_URL: ${{ secrets.GITHUB_PAGES_API_URL }}
+          NEXT_PUBLIC_API_URL: ${{ secrets.PAGES_API_URL }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
