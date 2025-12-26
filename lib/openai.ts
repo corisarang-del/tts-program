@@ -3,11 +3,18 @@ import { requireEnv } from '@/lib/env';
 import { AppError } from '@/lib/error-handler';
 import { getLocalizedText } from '@/lib/i18n';
 
-const GEMINI_MODEL = 'gemini-1.5-flash';
+const GEMINI_MODEL = 'gemini-2.5-flash';
 
-const SYSTEM_PROMPT = `You are an expert in natural, polite communication.
-Write sentences that can be pasted directly into chat or email.
-Keep each sentence within 2-3 lines and provide exactly 3 variants.`;
+const SYSTEM_PROMPT = `You are an expert in natural, polite communication across cultures.
+Your task is to generate realistic, practical sentences that people would actually use in real conversations.
+
+IMPORTANT RULES:
+- Generate ORIGINAL sentences, not template phrases or saved examples
+- Each sentence must be complete, natural, and immediately usable
+- Sentences should sound like real human conversation, not formal templates
+- Keep sentences concise (1-2 lines maximum)
+- Provide exactly 3 different variations
+- Return ONLY a JSON array of strings, nothing else`;
 
 const LANGUAGE_NAMES: Record<Locale, string> = {
   ko: 'Korean',
@@ -27,11 +34,25 @@ export async function generateSentences(
   const intentDescription = getLocalizedText(intent.description, locale);
   const languageName = LANGUAGE_NAMES[locale] || 'Korean';
 
-  const userPrompt = `Situation: ${situationName} (${situationDescription})
-Intent: ${intentName} (${intentDescription})
+  const userPrompt = `CONTEXT:
+Situation: ${situationName}
+Description: ${situationDescription}
+Intent: ${intentName}
+Goal: ${intentDescription}
+Language: ${languageName}
 
-Generate 3 ${languageName} sentences that express the intent in this situation.
-Return ONLY a JSON array of strings, for example: ["sentence1", "sentence2", "sentence3"]`;
+TASK:
+Generate 3 realistic ${languageName} sentences that someone would actually say in this exact situation to achieve this intent.
+
+REQUIREMENTS:
+- Each sentence must be complete and ready to use in a real conversation
+- Use natural, conversational language (not stiff or overly formal)
+- Make each variation distinct (different wording, tone, or approach)
+- Sentences should fit the specific context and cultural norms of ${languageName}
+- Keep each sentence concise and clear (1-2 lines maximum)
+
+OUTPUT FORMAT:
+Return ONLY a JSON array with exactly 3 strings: ["sentence1", "sentence2", "sentence3"]`;
 
   try {
     // 환경 변수 확인 및 에러 처리 개선

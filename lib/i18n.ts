@@ -9,7 +9,7 @@ export const LOCALE_LABELS: Record<Locale, string> = {
   zh: '中文',
 };
 
-type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent' | 'whichIntention' | 'retry' | 'whichSituation' | 'wasItHelpful' | 'rateHelpfulness' | 'solved' | 'okay' | 'notHelpful' | 'skip' | 'usageComplete' | 'usageCompleted' | 'tryAnotherSituation' | 'goToHome' | 'homeMainTitle' | 'homeStartButton' | 'homeFeatureMinimalClicks' | 'homeFeatureInstantResults' | 'homeFeatureVoiceSupport';
+type UITextKey = 'copy' | 'play' | 'pause' | 'regenerate' | 'next' | 'back' | 'generatedSentences' | 'noSentences' | 'backToIntent' | 'whichIntention' | 'retry' | 'whichSituation' | 'wasItHelpful' | 'rateHelpfulness' | 'solved' | 'okay' | 'notHelpful' | 'skip' | 'usageComplete' | 'usageCompleted' | 'tryAnotherSituation' | 'goToHome' | 'homeMainTitle' | 'homeStartButton' | 'homeFeatureMinimalClicks' | 'homeFeatureInstantResults' | 'homeFeatureVoiceSupport' | 'feedbackMessage' | 'reuseMessage';
 
 const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
   copy: {
@@ -173,6 +173,18 @@ const UI_TEXTS: Record<UITextKey, Record<Locale, string>> = {
     en: 'Voice support',
     ja: '音声サポート',
     zh: '语音支持',
+  },
+  feedbackMessage: {
+    ko: '당신의 한 번의 클릭이 서비스를 더 똑똑하게 만듭니다',
+    en: 'Your one click makes the service smarter',
+    ja: 'あなたの1回のクリックがサービスをより賢くします',
+    zh: '您的一次点击使服务更智能',
+  },
+  reuseMessage: {
+    ko: '다음에도 필요하면 언제든 다시 사용하세요',
+    en: 'Feel free to use it again whenever you need it',
+    ja: '次回も必要であればいつでもまたご利用ください',
+    zh: '如果下次需要，随时可以再次使用',
   },
 };
 

@@ -27,8 +27,11 @@ export default function AnalysisPage() {
               <h2 className="text-2xl font-bold text-neutral-900 dark:text-neutral-100 mb-4">
                 {getUIText('usageCompleted', language)}
               </h2>
-              <p className="text-neutral-600 dark:text-neutral-400">
+              <p className="text-neutral-600 dark:text-neutral-400 mb-4">
                 생성된 문장이 도움이 되었기를 바랍니다.
+              </p>
+              <p className="text-sm text-neutral-500 dark:text-neutral-500">
+                {getUIText('reuseMessage', language)}
               </p>
             </div>
 

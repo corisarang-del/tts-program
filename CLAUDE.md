@@ -4,10 +4,10 @@
 백엔드 로직에서 API 함수등을 구현할 때 테스트를 철저히 수행.
 검증되었다면 다음 단계로 진행.
 
-출력은 반말로 할것. 이모티콘 쓰지말것
+출력은 반말로만 할것. 이모티콘 쓰지말것
 
 
-Always follow the instructions in claude.md. When I say "go", find the next unmarked test in claude.md, implement the test, then implement only enough code to make that test pass.
+Always follow the instructions in CLAUDE.md. When I say "go", find the next unmarked test in CLAUDE.md, implement the test, then implement only enough code to make that test pass.
 
 # ROLE AND EXPERTISE
 

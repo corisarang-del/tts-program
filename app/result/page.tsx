@@ -66,6 +66,9 @@ export default function ResultPage() {
             <p className="text-xl text-neutral-600 dark:text-neutral-400 mb-8">
               {getUIText('rateHelpfulness', language)}
             </p>
+            <p className="text-sm text-neutral-500 dark:text-neutral-500 italic">
+              {getUIText('feedbackMessage', language)}
+            </p>
           </div>
 
           <div className="space-y-4 mb-8">
