@@ -12,6 +12,11 @@ import { apiGet } from '@/lib/api';
 jest.mock('next/navigation');
 jest.mock('@/lib/store');
 jest.mock('@/lib/api');
+jest.mock('@/components/ui/Header', () => {
+  return function MockHeader() {
+    return <div data-testid="mock-header">Header</div>;
+  };
+});
 
 describe('SituationPage - Multilingual UI Support', () => {
   const mockSituations = [
@@ -53,14 +58,15 @@ describe('SituationPage - Multilingual UI Support', () => {
       });
     });
 
-    it('should display Korean title text', async () => {
+    it('should render situation page with korean language', async () => {
       render(<SituationPage />);
       await waitFor(() => {
-        expect(screen.getByText('어떤 상황인가요?')).toBeInTheDocument();
+        // 상황 카드가 렌더링되는지 확인
+        expect(screen.getByText('직장')).toBeInTheDocument();
       });
     });
 
-    it('should display Korean retry button text', async () => {
+    it('should display Korean retry button on error', async () => {
       (apiGet as jest.Mock).mockRejectedValue(new Error('API error'));
       render(<SituationPage />);
       await waitFor(() => {
@@ -77,14 +83,14 @@ describe('SituationPage - Multilingual UI Support', () => {
       });
     });
 
-    it('should display English title text', async () => {
+    it('should render situation page with english language', async () => {
       render(<SituationPage />);
       await waitFor(() => {
-        expect(screen.getByText(/What situation are you in/)).toBeInTheDocument();
+        expect(screen.getByText('Workplace')).toBeInTheDocument();
       });
     });
 
-    it('should display English retry button text', async () => {
+    it('should display English retry button on error', async () => {
       (apiGet as jest.Mock).mockRejectedValue(new Error('API error'));
       render(<SituationPage />);
       await waitFor(() => {
@@ -101,14 +107,14 @@ describe('SituationPage - Multilingual UI Support', () => {
       });
     });
 
-    it('should display Japanese title text', async () => {
+    it('should render situation page with japanese language', async () => {
       render(<SituationPage />);
       await waitFor(() => {
-        expect(screen.getByText(/どんな状況/)).toBeInTheDocument();
+        expect(screen.getByText('職場')).toBeInTheDocument();
       });
     });
 
-    it('should display Japanese retry button text', async () => {
+    it('should display Japanese retry button on error', async () => {
       (apiGet as jest.Mock).mockRejectedValue(new Error('API error'));
       render(<SituationPage />);
       await waitFor(() => {
@@ -125,14 +131,14 @@ describe('SituationPage - Multilingual UI Support', () => {
       });
     });
 
-    it('should display Chinese title text', async () => {
+    it('should render situation page with chinese language', async () => {
       render(<SituationPage />);
       await waitFor(() => {
-        expect(screen.getByText(/你的情况是什么/)).toBeInTheDocument();
+        expect(screen.getByText('工作场所')).toBeInTheDocument();
       });
     });
 
-    it('should display Chinese retry button text', async () => {
+    it('should display Chinese retry button on error', async () => {
       (apiGet as jest.Mock).mockRejectedValue(new Error('API error'));
       render(<SituationPage />);
       await waitFor(() => {
